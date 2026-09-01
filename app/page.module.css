@@ -1,12 +1,13 @@
 .container {
   display: flex;
-  gap: 80px;
-  padding: 280px 160px;
+  gap: 200px;
+  padding: 120px 160px;
 }
 
 .text {
   display: flex;
   flex-direction: column;
+  margin-top: 120px;
 }
 
 .title {
@@ -32,7 +33,41 @@
 }
 
 .sell {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.67;
+  color: var(--links);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 3px solid var(--main);
+  background-color: transparent;
   width: 228px;
   height: 81px;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.sell:hover {
+  border-color: var(--hover-btn);
+  color: var(--hover-btn);
+}
+
+.buy {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.67;
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main);
+  width: 228px;
+  height: 81px;
+  transition: background-color 0.3s ease;
+}
+
+.buy:hover {
+  background-color: var(--hover-btn);
 }

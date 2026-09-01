@@ -14,12 +14,12 @@ export default function Home() {
 
       <ul className={css.btnList}>
         <li className={css.btnItem}>
-          <Link className={css.sell} href="/products">
+          <Link className={css.sell} href="/sell">
             SELL NOW
           </Link>
         </li>
         <li className={css.btnItem}>
-          <Link className={css.buy} href="/sell">
+          <Link className={css.buy} href="/products">
             BUY NOW
           </Link>
         </li>
@@ -27,7 +27,7 @@ export default function Home() {
       </div>
 
       <div className={css.gallery}>
-        <Image src="/img/iphone17.webp" alt="IPHONE 17" width={780} height={680}/>
+        <Image src="/img/iphone17.webp" alt="IPHONE 17" width={740} height={680}/>
       </div>
 
     </div>
