@@ -1,28 +1,29 @@
-"use client";
+"use client"
 
-import { ChangeEvent, useId, useState } from "react";
-import Image from "next/image";
-import { Formik, Form, Field } from "formik";
-import css from "./SellPage.module.css";
+import { ChangeEvent, useId, useState } from "react"
+import Image from "next/image"
+import { Formik, Form, Field } from "formik"
+import css from "./SellPage.module.css"
+import { CiCamera } from "react-icons/ci"
 
-const MAX_FILE_SIZE = 1024 * 1024; // 1 MB
+const MAX_FILE_SIZE = 1024 * 1024 // 1 MB
 
 export interface SellFormValues {
-  name: string;
-  price: number;
-  description: string;
-  storage: string;
-  battery_health: string;
-  period_of_use: string;
-  cosmetic_condition: string;
-  photo: File | string | null;
+  name: string
+  price: number
+  description: string
+  storage: string
+  battery_health: string
+  period_of_use: string
+  cosmetic_condition: string
+  photo: File | string | null
 }
 
 const SellPage = () => {
-  const fieldId = useId();
+  const fieldId = useId()
 
-  const [preview, setPreview] = useState<string | null>(null);
-  const [photoError, setPhotoError] = useState("");
+  const [preview, setPreview] = useState<string | null>(null)
+  const [photoError, setPhotoError] = useState("")
 
   const initialValues: SellFormValues = {
     name: "",
@@ -33,11 +34,20 @@ const SellPage = () => {
     period_of_use: "",
     cosmetic_condition: "",
     photo: null,
-  };
+  }
 
-  const handleSubmit = (values: SellFormValues) => {
-    console.log(values);
-  };
+  const handleSubmit = (
+    values: SellFormValues,
+    { resetForm }: { resetForm: () => void },
+  ) => {
+    console.log(values)
+
+    
+    resetForm()
+
+    setPreview(null)
+    setPhotoError("")
+  }
 
   return (
     <div className={css.container}>
@@ -46,31 +56,31 @@ const SellPage = () => {
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ setFieldValue }) => {
           const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-            const file = event.target.files?.[0];
-            setPhotoError("");
+            const file = event.target.files?.[0]
+            setPhotoError("")
 
-            if (!file) return;
+            if (!file) return
 
             if (!file.type.startsWith("image/")) {
-              setPhotoError("Only images are allowed.");
-              setFieldValue("photo", null);
-              setPreview(null);
-              return;
+              setPhotoError("Only images are allowed.")
+              setFieldValue("photo", null)
+              setPreview(null)
+              return
             }
 
             if (file.size > MAX_FILE_SIZE) {
-              setPhotoError("Maximum file size is 1 MB.");
-              setFieldValue("photo", null);
-              setPreview(null);
-              return;
+              setPhotoError("Maximum file size is 1 MB.")
+              setFieldValue("photo", null)
+              setPreview(null)
+              return
             }
 
-            setFieldValue("photo", file);
+            setFieldValue("photo", file)
 
-            const reader = new FileReader();
-            reader.onloadend = () => setPreview(reader.result as string);
-            reader.readAsDataURL(file);
-          };
+            const reader = new FileReader()
+            reader.onloadend = () => setPreview(reader.result as string)
+            reader.readAsDataURL(file)
+          }
 
           return (
             <Form className={css.form}>
@@ -95,7 +105,10 @@ const SellPage = () => {
                   id={`${fieldId}-price`}
                 />
 
-                <label className={css.textLabel} htmlFor={`${fieldId}-description`}>
+                <label
+                  className={css.textLabel}
+                  htmlFor={`${fieldId}-description`}
+                >
                   Description
                 </label>
                 <Field
@@ -358,20 +371,18 @@ const SellPage = () => {
                       height={374}
                     />
                   ) : (
-                    <svg width="140" height="140" className={css.cameraIcon}>
-                      <use href="/sprite.svg#icon-camera"></use>
-                    </svg>
+                    <CiCamera className={css.cameraIcon} size={140} />
                   )}
                 </label>
 
                 {photoError && <p className={css.error}>{photoError}</p>}
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default SellPage;
+export default SellPage

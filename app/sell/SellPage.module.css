@@ -71,6 +71,7 @@
 .cameraIcon {
   width: 140px;
   height: 140px;
+  flex-shrink: 0;
 }
 
 .error {
@@ -196,7 +197,7 @@ textarea:focus {
 
 .submit {
   margin-top: 52px;
-  margin-left: 240px;
+  margin-left: 260px;
   font-family: var(--second-family);
   font-weight: 600;
   font-size: 24px;
@@ -208,9 +209,9 @@ textarea:focus {
   background-color: var(--hover-links);
   width: 228px;
   height: 81px;
-  transition: background-color 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .submit:hover {
-  background-color: var(--hover-submit);
+  opacity: 0.8;
 }
