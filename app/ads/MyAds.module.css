@@ -1,0 +1,112 @@
+.container {
+  padding: 40px 160px;
+  display: flex;
+  gap: 40px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.46;
+  color: var(--main);
+  margin-left: 160px;
+}
+
+.addSell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 480px;
+  height: 480px;
+  background-color: transparent;
+  border: 3px solid var(--main);
+  border-radius: 16px;
+  transition: border 0.3s ease;
+}
+
+.addSell:hover {
+  border: 3px solid var(--hover-btn);
+}
+
+.adsList {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.adsItem {
+  padding: 40px 12px;
+  width: 480px;
+  height: 480px;
+  background-color: transparent;
+  border: 3px solid var(--main);
+  border-radius: 16px;
+}
+
+.image {
+  border-radius: 16px;
+}
+
+.wrapper {
+  display: flex;
+  gap: 24px;
+  position: relative;
+}
+
+.name {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.46;
+  color: var(--main);
+}
+
+.price {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.46;
+  color: var(--hover-btn);
+}
+
+
+
+.description {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--text);
+  margin-top: 12px;
+}
+
+.editIcon {
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.editIcon:hover {
+  color: var(--hover-btn);
+}
+
+.editLink {
+  position: absolute;
+  top: -32px;
+  left: 388px;
+}
+
+.deleteIcon {
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.deleteIcon:hover {
+  color: #ff1818;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: -32px;
+  left: 420px;
+}
