@@ -1,0 +1,109 @@
+.container {
+  padding: 40px 160px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.46;
+  color: var(--main);
+}
+
+.paragraph {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.aboutList {
+  display: flex;
+  gap: 48px;
+  margin-top: 32px;
+}
+
+.aboutItem {
+  width: 520px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Вирівнюємо весь контент до верхнього краю */
+  text-align: center;
+  border: 2px solid var(--main);
+  border-radius: 24px;
+}
+
+.titleItem {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.46;
+  color: var(--main);
+  margin-top: 16px;
+  margin-bottom: 0;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paragraphItem {
+  margin-top: 12px;
+  margin-bottom: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.foundersList {
+  margin-top: 64px;
+  display: flex;
+  gap: 80px;
+  justify-content: center;
+  width: 100%;
+}
+
+.foundersItem {
+  width: 720px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 24px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.image {
+  border-radius: 50%;
+}
+
+.aboutFounders {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.titleFounders {
+  text-align: center;
+  margin-top: 40px;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 1.46;
+  color: var(--links);
+}
