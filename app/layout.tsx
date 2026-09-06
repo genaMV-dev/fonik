@@ -22,7 +22,7 @@ const gothicA1 = Gothic_A1({
 })
 
 export const metadata: Metadata = {
-  title: "Fomik",
+  title: "Fonik",
   description: "Buying and selling smartphones",
 }
 
