@@ -1,5 +1,5 @@
 .header {
-  padding: 36px 80px;
+  padding: 36px 160px;
   display: flex;
   background-color: var(--white);
 }
@@ -28,16 +28,21 @@
   color: var(--links);
 }
 
-.navItem{
+.navItem {
   transition: color 0.3s ease;
 }
 
-.navItem:hover{
+.navItem:hover {
   color: var(--hover-links);
 }
 
 .basket svg {
   color: var(--links);
+  transition: color 0.3s ease;
+}
+
+.basket svg:hover {
+  color: var(--hover-links);
 }
 
 .basket {
