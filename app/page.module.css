@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  gap: 80px;
+  padding: 280px 160px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.46;
+  color: var(--main);
+}
+
+.paragraph {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 92px;
+}
+
+.btnList {
+  display: flex;
+  gap: 20px;
+}
+
+.sell {
+  border: 3px solid var(--main);
+  width: 228px;
+  height: 81px;
+}
