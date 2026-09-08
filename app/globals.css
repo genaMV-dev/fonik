@@ -13,12 +13,14 @@
   --third-family: "Gothic A1", sans-serif;
 
   /* Color Palette */
-  --main: #FFC49B;
-  --text: #2C1A14;
-  --links: #2B1F4B;
-  --hover-links: #5B21B6;
-  --hover-btn: #FEB07E;
+  --main: #ffc49b;
+  --text: #2c1a14;
+  --links: #2b1f4b;
+  --hover-links: #5b21b6;
+  --hover-btn: #feb07e;
   --white: #f7f7f7;
+  --label: rgba(44, 26, 20, 0.8);
+  --hover-submit: #3b0764;
 }
 
 html {
