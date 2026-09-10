@@ -51,6 +51,7 @@ const SellPage = () => {
 
   return (
     <div className={css.container}>
+
       <h2 className={css.title}>CREATE AN AD</h2>
 
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
