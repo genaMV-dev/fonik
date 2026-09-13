@@ -1,0 +1,169 @@
+.container {
+  padding: 40px 160px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.2;
+  color: var(--main);
+}
+
+.basketContent {
+  display: flex;
+  gap: 48px;
+  margin-top: 40px;
+  align-items: flex-start;
+}
+
+.basketList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.basketItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid var(--main);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.image {
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--main);
+  margin: 0;
+}
+
+.price {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.46;
+  color: var(--hover-btn);
+  margin: 0;
+}
+
+.rightGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.learnMore {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--white);
+  background-color: var(--hover-links);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.learnMore:hover {
+  opacity: 0.85;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.deleteIcon {
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.deleteBtn:hover .deleteIcon {
+  color: #ff1818;
+}
+
+/* Блок підсумку */
+.summaryCard {
+  width: 320px;
+  border: 2px solid var(--main);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.summaryTitle {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--main);
+  margin: 0;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.totalPrice {
+  font-weight: 700;
+  color: var(--main);
+}
+
+.checkoutBtn {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--white);
+  background-color: var(--main);
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.checkoutBtn:hover {
+  opacity: 0.9;
+}
