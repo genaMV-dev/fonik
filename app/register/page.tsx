@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik"
 import * as Yup from "yup"
 import css from "./registerPage.module.css"
@@ -8,7 +8,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5"
 import { useRouter } from "next/navigation"
 import { RegisterDTO, registerUser } from "@/lib/api/api"
 import { AxiosError } from "axios"
-import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthStore } from "@/lib/store/authStore"
 
 const RegisterSchema = Yup.object().shape({
   username: Yup.string()
@@ -23,11 +23,20 @@ const RegisterSchema = Yup.object().shape({
 })
 
 const RegisterPage = () => {
+  // 1. Отримуємо user та setUser зі стору
+  const user = useAuthStore((state) => state.user)
+  const setUser = useAuthStore((state) => state.setUser)
+
   const [showPassword, setShowPassword] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
   const router = useRouter()
 
-  
-  const setUser = useAuthStore((state) => state.setUser)
+  // 2. Якщо користувач вже авторизований — редиректимо на головну
+  useEffect(() => {
+    if (user) {
+      router.push("/")
+    }
+  }, [user, router])
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev)
@@ -37,26 +46,32 @@ const RegisterPage = () => {
     values: RegisterDTO,
     { setSubmitting, resetForm }: FormikHelpers<RegisterDTO>,
   ): Promise<void> => {
+    setServerError(null)
+
     try {
-      const data = await registerUser(values)
+      const newUser = await registerUser(values)
 
-      
-      const user = data.user || data
-      setUser(user)
-
-      resetForm()
-      router.push("/")
+      if (newUser) {
+        setUser(newUser)
+        resetForm()
+        router.push("/")
+      }
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>
       const errorMessage =
         axiosError.response?.data?.message ||
         axiosError.message ||
         "Registration error"
+
+      setServerError(errorMessage)
       console.error("Registration error:", errorMessage)
     } finally {
       setSubmitting(false)
     }
   }
+
+  // 3. Не рендеримо форму, якщо користувач авторизований
+  if (user) return null
 
   return (
     <div className={css.container}>
@@ -68,6 +83,8 @@ const RegisterPage = () => {
         {({ isSubmitting }) => (
           <Form className={css.form}>
             <h2 className={css.title}>Register</h2>
+
+            {serverError && <div className={css.error}>{serverError}</div>}
 
             {/* Поле USERNAME */}
             <div className={css.fieldWrapper}>

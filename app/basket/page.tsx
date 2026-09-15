@@ -1,8 +1,23 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import css from "./BasketPage.module.css"
 import { MdDelete } from "react-icons/md"
+import { useAuthStore } from "@/lib/store/authStore"
 
 const BasketPage = () => {
+  const user = useAuthStore((state) => state.user)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login")
+    }
+  }, [user, router])
+  if (!user) return null
+
   const testPhones = [
     {
       id: 1,
@@ -54,7 +69,6 @@ const BasketPage = () => {
                 </div>
               </div>
 
-              
               <div className={css.rightGroup}>
                 <button className={css.learnMore}>LEARN MORE</button>
                 <button className={css.deleteBtn} aria-label="Delete item">
@@ -65,7 +79,6 @@ const BasketPage = () => {
           ))}
         </ul>
 
-        
         <div className={css.summaryCard}>
           <h3 className={css.summaryTitle}>ORDER SUMMARY</h3>
           <div className={css.summaryRow}>
