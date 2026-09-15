@@ -3,30 +3,23 @@
 import { useState } from "react"
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik"
 import * as Yup from "yup"
-import css from "./registerPage.module.css"
+import css from "./LoginPage.module.css"
 import { IoEye, IoEyeOff } from "react-icons/io5"
 import { useRouter } from "next/navigation"
-import { RegisterDTO, registerUser } from "@/lib/api/api"
+import { LoginDTO, loginUser } from "@/lib/api/api"
 import { AxiosError } from "axios"
-import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthStore } from "@/lib/store/authStore"
 
-const RegisterSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, "Name is too short")
-    .max(32, "Name is too long")
-    .required("Required field"),
+const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required field"),
-  password: Yup.string()
-    .min(8, "The password must be at least 8 characters long.")
-    .max(64, "Password is too long")
-    .required("Required field"),
+  password: Yup.string().required("Required field"),
 })
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
   const router = useRouter()
 
-  
   const setUser = useAuthStore((state) => state.setUser)
 
   const togglePasswordVisibility = () => {
@@ -34,25 +27,28 @@ const RegisterPage = () => {
   }
 
   const handleSubmit = async (
-    values: RegisterDTO,
-    { setSubmitting, resetForm }: FormikHelpers<RegisterDTO>,
+    values: LoginDTO,
+    { setSubmitting, resetForm }: FormikHelpers<LoginDTO>,
   ): Promise<void> => {
+    setServerError(null)
+
     try {
-      const data = await registerUser(values)
+      const user = await loginUser(values)
 
-      
-      const user = data.user || data
-      setUser(user)
-
-      resetForm()
-      router.push("/")
+      if (user) {
+        setUser(user)
+        resetForm()
+        router.push("/")
+      }
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>
       const errorMessage =
         axiosError.response?.data?.message ||
         axiosError.message ||
-        "Registration error"
-      console.error("Registration error:", errorMessage)
+        "Login error"
+
+      setServerError(errorMessage)
+      console.error("Login error:", errorMessage)
     } finally {
       setSubmitting(false)
     }
@@ -61,35 +57,15 @@ const RegisterPage = () => {
   return (
     <div className={css.container}>
       <Formik
-        initialValues={{ username: "", email: "", password: "" }}
-        validationSchema={RegisterSchema}
+        initialValues={{ email: "", password: "" }}
+        validationSchema={LoginSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form className={css.form}>
-            <h2 className={css.title}>Register</h2>
+            <h2 className={css.title}>Login</h2>
 
-            {/* Поле USERNAME */}
-            <div className={css.fieldWrapper}>
-              <label htmlFor="username" className={css.label}>
-                Name
-              </label>
-
-              <Field
-                type="text"
-                name="username"
-                id="username"
-                autoComplete="username"
-                className={css.input}
-                placeholder="Enter your name"
-              />
-
-              <ErrorMessage
-                name="username"
-                component="span"
-                className={css.error}
-              />
-            </div>
+            {serverError && <div className={css.error}>{serverError}</div>}
 
             {/* Поле EMAIL */}
             <div className={css.fieldWrapper}>
@@ -123,7 +99,7 @@ const RegisterPage = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"
-                autoComplete="new-password"
+                autoComplete="current-password"
                 className={css.input}
                 placeholder="••••••••"
               />
@@ -153,7 +129,7 @@ const RegisterPage = () => {
               disabled={isSubmitting}
               className={css.submitBtn}
             >
-              {isSubmitting ? "Loading..." : "Sign up"}
+              {isSubmitting ? "Loading..." : "Sign in"}
             </button>
           </Form>
         )}
@@ -162,4 +138,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default LoginPage
