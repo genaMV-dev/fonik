@@ -6,6 +6,8 @@ import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
 import { useAuthStore } from "@/lib/store/authStore"
 import { usePathname } from "next/navigation"
+import { RiLogoutBoxRLine } from "react-icons/ri"
+import { logoutUser } from "@/lib/api/api"
 
 const Header = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
@@ -17,18 +19,28 @@ const Header = () => {
   if (hiddenRoutes.includes(pathname)) {
     return (
       <div className={css.container}>
-      <Link className={css.logo} href="./">
-        <Image
-          className={css.icon}
-          src="/logo.ico"
-          alt="Fomik Logo"
-          width={32}
-          height={32}
-        />
-        <h2 className={css.logoTitle}>FOMIK</h2>
-      </Link>
+        <Link className={css.logo} href="./">
+          <Image
+            className={css.icon}
+            src="/logo.ico"
+            alt="Fomik Logo"
+            width={32}
+            height={32}
+          />
+          <h2 className={css.logoTitle}>FOMIK</h2>
+        </Link>
       </div>
     )
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser()
+    } catch (error) {
+      console.error("Logout error on backend:", error)
+    } finally {
+      useAuthStore.getState().clearAuth()
+    }
   }
 
   return (
@@ -62,11 +74,15 @@ const Header = () => {
       </ul>
 
       {isAuthenticated ? (
-        <div className={css.basket}>
+        <div className={css.basketWrapper}>
           <Link href="/basket">
             <SlBasket size={50} />
             <div className={css.counter}>5</div>
           </Link>
+
+          <button className={css.logout} type="button" onClick={handleLogout}>
+            <RiLogoutBoxRLine size={50} />
+          </button>
         </div>
       ) : (
         <div>
