@@ -4,6 +4,10 @@
   background-color: var(--white);
 }
 
+.container{
+  padding: 36px 160px;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -64,4 +68,53 @@
   font-weight: 700;
   font-size: 18px;
   color: var(--white);
+}
+
+.unAuthList {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  right: 164px;
+}
+
+.regLink {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.67;
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--hover-links);
+  width: 100px;
+  height: 36px;
+  transition: opacity 0.3s ease;
+}
+
+.regLink:hover {
+  opacity: 0.8;
+}
+
+.loginLink {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.67;
+  color: var(--links);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--main);
+  background-color: transparent;
+  width: 100px;
+  height: 36px;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.loginLink:hover {
+  border-color: var(--hover-btn);
+  color: var(--hover-btn);
 }

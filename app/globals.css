@@ -21,6 +21,7 @@
   --white: #f7f7f7;
   --label: rgba(44, 26, 20, 0.8);
   --hover-submit: #3b0764;
+  --error: #b90202;
 }
 
 html {
