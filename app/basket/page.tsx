@@ -1,23 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 import css from "./BasketPage.module.css"
 import { MdDelete } from "react-icons/md"
-import { useAuthStore } from "@/lib/store/authStore"
 
 const BasketPage = () => {
-  const user = useAuthStore((state) => state.user)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login")
-    }
-  }, [user, router])
-  if (!user) return null
-
   const testPhones = [
     {
       id: 1,

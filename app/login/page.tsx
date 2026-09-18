@@ -16,22 +16,21 @@ const LoginSchema = Yup.object().shape({
 })
 
 const LoginPage = () => {
-  
-  const user = useAuthStore((state) => state.user)
   const setUser = useAuthStore((state) => state.setUser)
-  
-  const [showPassword, setShowPassword] = useState(false)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const hasHydrated = useAuthStore((state) => state.hasHydrated)
+
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const router = useRouter()
 
-  
   useEffect(() => {
-    if (user) {
+    if (hasHydrated && isAuthenticated) {
       router.push("/")
     }
-  }, [user, router])
+  }, [hasHydrated, isAuthenticated, router])
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (): void => {
     setShowPassword((prev) => !prev)
   }
 
@@ -42,10 +41,16 @@ const LoginPage = () => {
     setServerError(null)
 
     try {
-      const user = await loginUser(values)
+      const response = await loginUser(values)
 
-      if (user) {
-        setUser(user)
+      if (response) {
+        const token =
+          response.accessToken ||
+          response.sessionId ||
+          response.token ||
+          response._id
+
+        setUser(response, token)
         resetForm()
         router.push("/")
       }
@@ -62,9 +67,6 @@ const LoginPage = () => {
       setSubmitting(false)
     }
   }
-
-  
-  if (user) return null
 
   return (
     <div className={css.container}>

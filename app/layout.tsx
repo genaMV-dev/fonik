@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Lato, Poppins, Gothic_A1 } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header/Header"
+import TanStackProvider from "@/components/TanStackProvider/TanStackProvider"
 
 const lato = Lato({
   weight: ["400", "700"],
@@ -37,8 +38,10 @@ export default function RootLayout({
       className={`${lato.variable} ${poppins.variable} ${gothicA1.variable}`}
     >
       <body>
-        <Header />
-        {children}
+        <TanStackProvider>
+          <Header />
+          {children}
+        </TanStackProvider>
       </body>
     </html>
   )
