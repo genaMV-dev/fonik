@@ -1,55 +1,58 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import css from "./ProductsPage.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
+import { getAllPhones, PhoneItem } from "@/lib/api/api"
 
 const ProductsPage = () => {
-  const testPhones = [
-    {
-      name: "iPhone 15 Pro Max",
-      description:
-        "Mint condition flagship device featuring 512 GB of internal storage. Carefully handled for under six months with maximum overall battery performance and efficiency. The natural titanium frame shows absolutely zero marks or scratches, and the ceramic shield front screen is in spotless condition. Includes the original USB-C braided cable, original box, and a free premium protective silicone case.",
-      price: 1100,
-      image: "/testImg/testIphone.webp",
-    },
-    {
-      name: "iPhone 14 Pro",
-      description:
-        "Flawless Space Black edition with 256 GB of internal storage space. Used for just a few months strictly as a secondary business phone, meaning zero scratches or micro-abrasions on the display and stainless steel edges. Maximum battery capacity remains at a high 98%. Includes original box, factory Lightning cable, and a unused glass screen protector.",
-      price: 820,
-      image: "/testImg/testIphone.webp",
-    },
-    {
-      name: "Xiaomi 13 Ultra",
-      description:
-        "Professional Leica quad-camera system paired with 512 GB of high-speed capacity. Light signs of regular daily use can be seen along the aluminum side frame, but the display screen is pristine. Battery holds charge just like new, supporting blazing fast 90W wired charging. Ships in full retail packaging with the original fast wall adapter included.",
-      price: 620,
-      image: "/testImg/testIphone.webp",
-    },
-    {
-      name: "iPhone 13 Mini",
-      description:
-        "Compact pink model offering 128 GB of storage space. Has deep scratches across the front screen display as well as noticeable dent marks on the aluminum corners. Battery health currently sits at 79%, so a future battery service is recommended. Fully functional internally, with working Face ID, clear speakers, and cameras. Great secondary phone or project device.",
-      price: 310,
-      image: "/testImg/testIphone.webp",
-    },
-    {
-      name: "OnePlus 11 5G",
-      description:
-        "Fast charging performance champion with 256 GB of internal storage. Unboxed only for brief media testing purposes, remaining in pristine, untouched condition with 100% battery capacity. The curved Super Fluid AMOLED screen delivers smooth visuals. Comes complete with the original 100W SuperVOOC power adapter, red signature cable, pre-applied screen protector, and original brand packaging.",
-      price: 540,
-      image: "/testImg/testIphone.webp",
-    },
-    {
-      name: "Nothing Phone (2)",
-      description:
-        "Unique transparent back design featuring white Glyph interface LEDs and 128 GB storage space. Minor hairline scratches are visible on the side bezel under direct lighting, but overall the phone is in great working shape. Battery life comfortably powers through a full busy day. Includes the transparent C-to-C charging cable, SIM ejector tool, and original box.",
-      price: 430,
-      image: "/testImg/testIphone.webp",
-    },
-  ]
+  const [phones, setPhones] = useState<PhoneItem[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [loadingMore, setLoadingMore] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchInitialPhones = async (): Promise<void> => {
+      try {
+        setLoading(true)
+        setError(null)
+        const data = await getAllPhones({ page: 1, perPage: 12 })
+        setPhones(data.phones)
+        setTotalPages(data.totalPages)
+      } catch (err) {
+        console.error("Error fetching products:", err)
+        setError("Failed to load products")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchInitialPhones()
+  }, [])
+
+  const handleLoadMore = async (): Promise<void> => {
+    if (page >= totalPages || loadingMore) return
+
+    const nextPage = page + 1
+    try {
+      setLoadingMore(true)
+      const data = await getAllPhones({ page: nextPage, perPage: 12 })
+      setPhones((prev) => [...prev, ...data.phones])
+      setPage(nextPage)
+      setTotalPages(data.totalPages)
+    } catch (err) {
+      console.error("Error loading more products:", err)
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
   const truncateWords = (text: string, limit: number): string => {
+    if (!text) return ""
     const words = text.trim().split(/\s+/)
     if (words.length <= limit) return text
     return words.slice(0, limit).join(" ") + "..."
@@ -59,43 +62,63 @@ const ProductsPage = () => {
     <>
       <h2 className={css.title}>PRODUCTS</h2>
       <div className={css.container}>
+        {error && <p className={css.error}>{error}</p>}
+
         <ul className={css.adsList}>
-          {testPhones.map((phone, index) => (
-            <li key={index} className={css.adsItem}>
-              <div className={css.wrapper}>
-                <Image
-                  className={css.image}
-                  src={phone.image}
-                  alt="PHONE"
-                  width={200}
-                  height={200}
-                />
-                <div className={css.mainTextContent}>
-                  <h2 className={css.name}>{phone.name}</h2>
-                  <h3 className={css.price}>{phone.price}$</h3>
-                  <Link className={css.learnMore} href="#">
-                    LEARN MORE
-                  </Link>
+          {phones.map((phone) => {
+            const imageUrl =
+              typeof phone.photo === "string" && phone.photo
+                ? phone.photo
+                : "/placeholder.png"
+
+            return (
+              <li key={phone._id} className={css.adsItem}>
+                <div className={css.wrapper}>
+                  <Image
+                    className={css.image}
+                    src={imageUrl}
+                    alt={phone.name || "Phone image"}
+                    width={200}
+                    height={200}
+                  />
+                  <div className={css.mainTextContent}>
+                    <h2 className={css.name}>{phone.name}</h2>
+                    <h3 className={css.price}>{phone.price}$</h3>
+                    <Link className={css.learnMore} href={`/products/${phone._id}`}>
+                      LEARN MORE
+                    </Link>
+                  </div>
+
+                  <div className={css.basket}>
+                    <button className={css.basketBtn} type="button">
+                      <SlBasket size={25} />
+                    </button>
+                  </div>
                 </div>
 
-                {/* Перенесено в кінець, щоб не ламати Flex-потік */}
-                <div className={css.basket}>
-                  <button className={css.basketBtn}>
-                    <SlBasket size={25} />
-                  </button>
-                </div>
-              </div>
-
-              <p className={css.description}>
-                {truncateWords(phone.description, 27)}
-              </p>
-            </li>
-          ))}
+                <p className={css.description}>
+                  {truncateWords(phone.description, 27)}
+                </p>
+              </li>
+            )
+          })}
         </ul>
+
+        {loading && <p className={css.loadingText}>Loading...</p>}
       </div>
-      <div className={css.loadMoreContainer}>
-        <button className={css.loadMore}>LOAD MORE</button>
-      </div>
+
+      {page < totalPages && (
+        <div className={css.loadMoreContainer}>
+          <button
+            className={css.loadMore}
+            type="button"
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+          >
+            {loadingMore ? "LOADING..." : "LOAD MORE"}
+          </button>
+        </div>
+      )}
     </>
   )
 }
