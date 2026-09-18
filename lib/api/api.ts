@@ -26,9 +26,12 @@ export interface RegisterResponse {
   }
 }
 
+export interface LogoutResponse {
+  message: string;
+}
+
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
-
   withCredentials: true,
 })
 
@@ -38,3 +41,8 @@ export const registerUser = async (
   const { data } = await api.post<RegisterResponse>("/auth/register", userData)
   return data
 }
+
+export const logoutUser = async (): Promise<LogoutResponse> => {
+  const response = await api.post<LogoutResponse>("/auth/logout");
+  return response.data;
+};

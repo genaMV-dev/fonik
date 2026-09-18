@@ -40,18 +40,19 @@
   color: var(--hover-links);
 }
 
-.basket svg {
+.basketWrapper svg {
   color: var(--links);
   transition: color 0.3s ease;
 }
 
-.basket svg:hover {
+.basketWrapper svg:hover {
   color: var(--hover-links);
 }
 
-.basket {
+.basketWrapper {
   position: relative;
 }
+
 
 .counter {
   background-color: var(--main);
@@ -68,6 +69,12 @@
   font-weight: 700;
   font-size: 18px;
   color: var(--white);
+}
+
+.logout{
+  position: absolute;
+  right: -90px;
+  top: 3px;
 }
 
 .unAuthList {
