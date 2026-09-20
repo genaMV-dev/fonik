@@ -5,13 +5,13 @@ import css from "./Header.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
 import { useAuthStore } from "@/lib/store/authStore"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { RiLogoutBoxRLine } from "react-icons/ri"
 import { logoutUser } from "@/lib/api/api"
 
 const Header = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-
+  const router = useRouter()
   const pathname = usePathname()
 
   const hiddenRoutes = ["/login", "/register"]
@@ -40,6 +40,7 @@ const Header = () => {
       console.error("Logout error on backend:", error)
     } finally {
       useAuthStore.getState().clearAuth()
+      router.push("/")
     }
   }
 

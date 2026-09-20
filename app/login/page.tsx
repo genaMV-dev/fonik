@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik"
 import * as Yup from "yup"
 import css from "./LoginPage.module.css"
@@ -16,11 +16,20 @@ const LoginSchema = Yup.object().shape({
 })
 
 const LoginPage = () => {
+  
+  const user = useAuthStore((state) => state.user)
+  const setUser = useAuthStore((state) => state.setUser)
+  
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const router = useRouter()
 
-  const setUser = useAuthStore((state) => state.setUser)
+  
+  useEffect(() => {
+    if (user) {
+      router.push("/")
+    }
+  }, [user, router])
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev)
@@ -53,6 +62,9 @@ const LoginPage = () => {
       setSubmitting(false)
     }
   }
+
+  
+  if (user) return null
 
   return (
     <div className={css.container}>

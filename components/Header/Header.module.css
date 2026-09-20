@@ -4,7 +4,7 @@
   background-color: var(--white);
 }
 
-.container{
+.container {
   padding: 36px 160px;
 }
 
@@ -53,7 +53,6 @@
   position: relative;
 }
 
-
 .counter {
   background-color: var(--main);
   width: 25px;
@@ -71,7 +70,7 @@
   color: var(--white);
 }
 
-.logout{
+.logout {
   position: absolute;
   right: -90px;
   top: 3px;
@@ -79,23 +78,24 @@
 
 .unAuthList {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   position: absolute;
   right: 164px;
+  top: 30px;
 }
 
 .regLink {
   font-family: var(--second-family);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.67;
   color: var(--white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: var(--hover-links);
-  width: 100px;
-  height: 36px;
+  width: 143px;
+  height: 51px;
   transition: opacity 0.3s ease;
 }
 
@@ -106,7 +106,7 @@
 .loginLink {
   font-family: var(--second-family);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.67;
   color: var(--links);
   display: inline-flex;
@@ -114,8 +114,8 @@
   justify-content: center;
   border: 3px solid var(--main);
   background-color: transparent;
-  width: 100px;
-  height: 36px;
+  width: 143px;
+  height: 51px;
   transition:
     border-color 0.3s ease,
     color 0.3s ease;
