@@ -40,6 +40,19 @@ export interface PhoneItem extends CreatePhoneDTO {
   updatedAt?: string
 }
 
+export interface GetAllPhonesParams {
+  page?: number
+  perPage?: number
+}
+
+export interface GetAllPhonesResponse {
+  page: number
+  perPage: number
+  totalPhones: number
+  totalPages: number
+  phones: PhoneItem[]
+}
+
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
@@ -81,5 +94,23 @@ export const createAd = async (values: CreatePhoneDTO): Promise<PhoneItem> => {
   if (values.conditions) formData.append("conditions", values.conditions)
 
   const { data } = await api.post<PhoneItem>("/phones", formData)
+  return data
+}
+
+export const getAllPhones = async (
+  params?: GetAllPhonesParams,
+): Promise<GetAllPhonesResponse> => {
+  const { data } = await api.get<GetAllPhonesResponse>("/phones", {
+    params,
+  })
+  return data
+}
+
+export const getMyPhones = async (
+  params?: GetAllPhonesParams,
+): Promise<GetAllPhonesResponse> => {
+  const { data } = await api.get<GetAllPhonesResponse>("/phones/my", {
+    params,
+  })
   return data
 }
