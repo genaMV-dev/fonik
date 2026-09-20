@@ -1,6 +1,11 @@
 import axios from "axios"
 import { AuthUser } from "../store/authStore"
 
+export const STORAGE = [8, 16, 32, 64, 128, 256]
+export const BATTERY = ["100%", "85%-99%", "Below 85%"]
+export const INUSE = ["Under 6 months", "6-12 months", "1-2 years", "2+ years"]
+export const CONDITIONS = ["Perfect", "Good", "Damaged"]
+
 export interface RegisterDTO {
   username: string
   email: string
@@ -14,6 +19,25 @@ export interface LoginDTO {
 
 export interface LogoutResponse {
   message: string
+}
+
+export interface CreatePhoneDTO {
+  name: string
+  description: string
+  price: number
+  photo: File | string
+  author: string
+  storage?: number
+  battery?: string
+  inUse?: string
+  conditions?: string
+}
+
+export interface PhoneItem extends CreatePhoneDTO {
+  _id: string
+  userId: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 const api = axios.create({
@@ -36,4 +60,26 @@ export const loginUser = async (userData: LoginDTO): Promise<AuthUser> => {
 export const logoutUser = async (): Promise<LogoutResponse> => {
   const response = await api.post<LogoutResponse>("/auth/logout")
   return response.data
+}
+
+export const refreshUserSession = async (): Promise<void> => {
+  await api.post("/auth/refresh")
+}
+
+export const createAd = async (values: CreatePhoneDTO): Promise<PhoneItem> => {
+  const formData = new FormData()
+
+  formData.append("name", values.name)
+  formData.append("description", values.description)
+  formData.append("price", String(values.price))
+  formData.append("photo", values.photo)
+  formData.append("author", values.author)
+
+  if (values.storage) formData.append("storage", String(values.storage))
+  if (values.battery) formData.append("battery", values.battery)
+  if (values.inUse) formData.append("inUse", values.inUse)
+  if (values.conditions) formData.append("conditions", values.conditions)
+
+  const { data } = await api.post<PhoneItem>("/phones", formData)
+  return data
 }

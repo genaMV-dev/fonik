@@ -1,8 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import css from "./page.module.css"
 import Image from "next/image"
 
+
 export default function Home() {
+  
   return (
     <div className={css.container}>
       <div className={css.text}>

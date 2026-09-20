@@ -6,9 +6,6 @@ import { FiPlusCircle } from "react-icons/fi"
 import Image from "next/image"
 import { MdModeEditOutline } from "react-icons/md"
 import { MdDelete } from "react-icons/md"
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useEffect } from "react";
 
 const MyAds = () => {
   const testPhones = [
@@ -75,17 +72,6 @@ const MyAds = () => {
     if (words.length <= limit) return text
     return words.slice(0, limit).join(" ") + "..."
   }
-
-  const router = useRouter()
-  const user = useAuthStore((state) => state.user)
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login")
-    }
-  }, [user, router])
-
-  if (!user) return null // Або спінер завантаження
 
   return (
     <>

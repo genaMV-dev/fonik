@@ -23,22 +23,21 @@ const RegisterSchema = Yup.object().shape({
 })
 
 const RegisterPage = () => {
-  // 1. Отримуємо user та setUser зі стору
-  const user = useAuthStore((state) => state.user)
   const setUser = useAuthStore((state) => state.setUser)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const hasHydrated = useAuthStore((state) => state.hasHydrated)
 
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const router = useRouter()
 
-  // 2. Якщо користувач вже авторизований — редиректимо на головну
   useEffect(() => {
-    if (user) {
+    if (hasHydrated && isAuthenticated) {
       router.push("/")
     }
-  }, [user, router])
+  }, [hasHydrated, isAuthenticated, router])
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (): void => {
     setShowPassword((prev) => !prev)
   }
 
@@ -52,7 +51,13 @@ const RegisterPage = () => {
       const newUser = await registerUser(values)
 
       if (newUser) {
-        setUser(newUser)
+        const token =
+          newUser.accessToken ||
+          newUser.sessionId ||
+          newUser.token ||
+          newUser._id
+
+        setUser(newUser, token)
         resetForm()
         router.push("/")
       }
@@ -69,9 +74,6 @@ const RegisterPage = () => {
       setSubmitting(false)
     }
   }
-
-  // 3. Не рендеримо форму, якщо користувач авторизований
-  if (user) return null
 
   return (
     <div className={css.container}>
