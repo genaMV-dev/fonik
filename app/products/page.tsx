@@ -6,6 +6,7 @@ import css from "./ProductsPage.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
 import { getAllPhones, PhoneItem } from "@/lib/api/api"
+import Loader from "@/components/Loader/Loader"
 
 const ProductsPage = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
@@ -84,7 +85,10 @@ const ProductsPage = () => {
                   <div className={css.mainTextContent}>
                     <h2 className={css.name}>{phone.name}</h2>
                     <h3 className={css.price}>{phone.price}$</h3>
-                    <Link className={css.learnMore} href={`/products/${phone._id}`}>
+                    <Link
+                      className={css.learnMore}
+                      href={`/products/${phone._id}`}
+                    >
                       LEARN MORE
                     </Link>
                   </div>
@@ -104,7 +108,11 @@ const ProductsPage = () => {
           })}
         </ul>
 
-        {loading && <p className={css.loadingText}>Loading...</p>}
+        {loading && (
+          <p className={css.loadingText}>
+            <Loader />
+          </p>
+        )}
       </div>
 
       {page < totalPages && (

@@ -7,6 +7,7 @@ import { FiPlusCircle } from "react-icons/fi"
 import Image from "next/image"
 import { MdModeEditOutline, MdDelete } from "react-icons/md"
 import { getMyPhones, PhoneItem } from "@/lib/api/api"
+import Loader from "@/components/Loader/Loader"
 
 const MyAds = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
@@ -114,7 +115,11 @@ const MyAds = () => {
           })}
         </ul>
 
-        {loading && <p className={css.loadingText}>Loading...</p>}
+        {loading && (
+          <p className={css.loadingText}>
+            <Loader />
+          </p>
+        )}
       </div>
 
       {page < totalPages && (
@@ -125,7 +130,7 @@ const MyAds = () => {
             onClick={handleLoadMore}
             disabled={loadingMore}
           >
-            {loadingMore ? "LOADING..." : "LOAD MORE"}
+            {loadingMore ? "Loading..." : "LOAD MORE"}
           </button>
         </div>
       )}
