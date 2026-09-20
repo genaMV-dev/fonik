@@ -1,0 +1,163 @@
+.container {
+  padding: 40px 160px;
+  display: flex;
+  gap: 36px;
+}
+
+.image {
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.name {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 146%;
+  color: var(--main);
+}
+
+.price {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 146%;
+  color: var(--main);
+}
+
+.descriptionTitle {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 125%;
+  color: var(--text);
+  margin-top: 16px;
+}
+
+.description {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 125%;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  column-gap: 140px;
+  row-gap: 40px;
+  margin-top: 24px;
+}
+
+.itemWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.paragraph {
+  margin: 0 0 4px 0;
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.storage {
+  margin: 0;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.buttons {
+  margin-top: 52px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.addToBasketBtn {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.67;
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main);
+  width: 400px;
+  height: 60px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  gap: 8px;
+}
+
+.addToBasketBtn:hover {
+  background-color: var(--hover-btn);
+}
+
+.contactLink {
+  display: flex;
+  gap: 8px;
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.67;
+  color: var(--links);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--main);
+  background-color: transparent;
+  width: 320px;
+  height: 60px;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.contactLink:hover {
+  border-color: var(--hover-btn);
+  color: var(--hover-btn);
+}
+
+.infoAuthor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.infoAuthor {
+  margin-top: 40px;
+}
+
+.infoP {
+  display: flex;
+  gap: 16px;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.contactUser {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 18px;
+}

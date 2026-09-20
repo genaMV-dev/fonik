@@ -114,3 +114,8 @@ export const getMyPhones = async (
   })
   return data
 }
+
+export const getPhoneById = async (phoneId: string): Promise<PhoneItem> => {
+  const { data } = await api.get<PhoneItem>(`/phones/${phoneId}`)
+  return data
+}
