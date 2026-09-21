@@ -33,6 +33,18 @@ export interface CreatePhoneDTO {
   conditions?: string
 }
 
+export interface UpdatePhoneDTO {
+  name?: string
+  description?: string
+  price?: number
+  photo?: File | string
+  author?: string
+  storage?: number
+  battery?: string
+  inUse?: string
+  conditions?: string
+}
+
 export interface PhoneItem extends CreatePhoneDTO {
   _id: string
   userId: string
@@ -51,6 +63,10 @@ export interface GetAllPhonesResponse {
   totalPhones: number
   totalPages: number
   phones: PhoneItem[]
+}
+
+export interface AddToBasketResponse {
+  message: string
 }
 
 const api = axios.create({
@@ -97,6 +113,45 @@ export const createAd = async (values: CreatePhoneDTO): Promise<PhoneItem> => {
   return data
 }
 
+export const updatePhone = async (
+  phoneId: string,
+  values: UpdatePhoneDTO,
+): Promise<PhoneItem> => {
+  const payload: Record<string, string | number> = {}
+
+  if (values.name) payload.name = values.name
+  if (values.description) payload.description = values.description
+  if (values.price !== undefined) payload.price = Number(values.price)
+
+  const author = values.author?.trim()
+  if (author && author.length >= 2) {
+    payload.author = author
+  }
+
+  if (values.storage !== undefined) {
+    payload.storage = values.storage
+  }
+  if (values.battery) payload.battery = values.battery
+  if (values.inUse) payload.inUse = values.inUse
+  if (values.conditions) payload.conditions = values.conditions
+
+  if (values.photo instanceof File) {
+    const formData = new FormData()
+
+    Object.entries(payload).forEach(([key, value]) => {
+      formData.append(key, String(value))
+    })
+
+    formData.append("photo", values.photo)
+
+    const { data } = await api.patch<PhoneItem>(`/phones/${phoneId}`, formData)
+    return data
+  }
+
+  const { data } = await api.patch<PhoneItem>(`/phones/${phoneId}`, payload)
+  return data
+}
+
 export const getAllPhones = async (
   params?: GetAllPhonesParams,
 ): Promise<GetAllPhonesResponse> => {
@@ -117,5 +172,14 @@ export const getMyPhones = async (
 
 export const getPhoneById = async (phoneId: string): Promise<PhoneItem> => {
   const { data } = await api.get<PhoneItem>(`/phones/${phoneId}`)
+  return data
+}
+
+export const addToBasket = async (
+  phoneId: string,
+): Promise<AddToBasketResponse> => {
+  const { data } = await api.post<AddToBasketResponse>(
+    `/phones/${phoneId}/basket`,
+  )
   return data
 }

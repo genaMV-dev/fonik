@@ -1,0 +1,12 @@
+.container {
+  padding: 40px 160px;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.46;
+  color: var(--main);
+  margin-bottom: 32px;
+}

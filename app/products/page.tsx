@@ -5,8 +5,9 @@ import Link from "next/link"
 import css from "./ProductsPage.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
-import { getAllPhones, PhoneItem } from "@/lib/api/api"
+import { getAllPhones, addToBasket, PhoneItem } from "@/lib/api/api"
 import Loader from "@/components/Loader/Loader"
+import toast from "react-hot-toast"
 
 const ProductsPage = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
@@ -14,6 +15,7 @@ const ProductsPage = () => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
+  const [addingId, setAddingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const ProductsPage = () => {
       try {
         setLoading(true)
         setError(null)
-        const data = await getAllPhones({ page: 1, perPage: 12 })
+        const data = await getAllPhones({ page: 1, perPage: 6 })
         setPhones(data.phones)
         setTotalPages(data.totalPages)
       } catch (err) {
@@ -49,6 +51,19 @@ const ProductsPage = () => {
       console.error("Error loading more products:", err)
     } finally {
       setLoadingMore(false)
+    }
+  }
+
+  const handleAddToBasket = async (phoneId: string): Promise<void> => {
+    try {
+      setAddingId(phoneId)
+      const res = await addToBasket(phoneId)
+      toast.success(res.message || "Added to basket!")
+    } catch (err) {
+      console.error("Error adding to basket:", err)
+      toast.error("Failed to add to basket")
+    } finally {
+      setAddingId(null)
     }
   }
 
@@ -94,7 +109,12 @@ const ProductsPage = () => {
                   </div>
 
                   <div className={css.basket}>
-                    <button className={css.basketBtn} type="button">
+                    <button
+                      className={css.basketBtn}
+                      type="button"
+                      onClick={() => handleAddToBasket(phone._id)}
+                      disabled={addingId === phone._id}
+                    >
                       <SlBasket size={25} />
                     </button>
                   </div>
@@ -108,11 +128,7 @@ const ProductsPage = () => {
           })}
         </ul>
 
-        {loading && (
-          <p className={css.loadingText}>
-            <Loader />
-          </p>
-        )}
+        {loading && <Loader />}
       </div>
 
       {page < totalPages && (

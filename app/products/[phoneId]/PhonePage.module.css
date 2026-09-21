@@ -4,16 +4,25 @@
   gap: 36px;
 }
 
+.imageContainer {
+  flex-shrink: 0;
+}
+
 .image {
   border-radius: 16px;
   object-fit: cover;
+}
+
+.textContainer {
+  flex: 1;
+  min-width: 0; 
 }
 
 .name {
   font-family: var(--second-family);
   font-weight: 700;
   font-size: 48px;
-  line-height: 146%;
+  line-height: 1.46;
   color: var(--main);
 }
 
@@ -34,13 +43,33 @@
   margin-top: 16px;
 }
 
+/* Опис із фіксованою висотою та скроллом */
 .description {
   font-family: var(--second-family);
   font-weight: 500;
-  font-size: 24px;
-  line-height: 125%;
+  font-size: 18px; /* Оптимальний розмір для блоку опису */
+  line-height: 140%;
   color: var(--text);
   margin-top: 8px;
+  
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 8px;
+  word-break: break-word; /* Запобігає виходу довгих слів за межі */
+}
+
+/* Стилізація скроллбару (для кастомного вигляд) */
+.description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.description::-webkit-scrollbar-thumb {
+  background-color: var(--main);
+  border-radius: 4px;
+}
+
+.description::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .gridContainer {
@@ -85,10 +114,7 @@
 
 .buttons {
   margin-top: 52px;
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
-  justify-content: center;
   gap: 18px;
 }
 
@@ -105,8 +131,9 @@
   width: 400px;
   height: 60px;
   transition: background-color 0.3s ease;
-  display: flex;
   gap: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .addToBasketBtn:hover {
@@ -114,8 +141,6 @@
 }
 
 .contactLink {
-  display: flex;
-  gap: 8px;
   font-family: var(--second-family);
   font-weight: 600;
   font-size: 20px;
@@ -131,6 +156,8 @@
   transition:
     border-color 0.3s ease,
     color 0.3s ease;
+  gap: 8px;
+  text-decoration: none;
 }
 
 .contactLink:hover {
@@ -139,17 +166,15 @@
 }
 
 .infoAuthor {
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.infoAuthor {
-  margin-top: 40px;
-}
-
 .infoP {
   display: flex;
+  align-items: center;
   gap: 16px;
   font-family: var(--second-family);
   font-weight: 700;

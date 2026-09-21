@@ -86,7 +86,7 @@ const MyAds = () => {
             return (
               <li key={phone._id} className={css.adsItem}>
                 <div className={css.wrapper}>
-                  <Link className={css.editLink} href={`/sell/${phone._id}`}>
+                  <Link className={css.editLink} href={`/ads/update/${phone._id}`}>
                     <MdModeEditOutline className={css.editIcon} size={25} />
                   </Link>
 
@@ -116,9 +116,7 @@ const MyAds = () => {
         </ul>
 
         {loading && (
-          <p className={css.loadingText}>
             <Loader />
-          </p>
         )}
       </div>
 

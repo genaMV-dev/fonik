@@ -38,6 +38,7 @@ export interface SellFormValues {
   period_of_use: string
   cosmetic_condition: string
   photo: File | string | null
+  author?: string
 }
 
 interface PhoneFormProps {
@@ -50,7 +51,10 @@ interface PhoneFormProps {
 
 const PhoneForm = ({ initialValues, onSubmit }: PhoneFormProps) => {
   const fieldId = useId()
-  const [preview, setPreview] = useState<string | null>(null)
+  // Ініціалізуємо прев'ю початковим фото, якщо це URL-рядок
+  const [preview, setPreview] = useState<string | null>(
+    typeof initialValues.photo === "string" ? initialValues.photo : null,
+  )
   const [photoError, setPhotoError] = useState("")
 
   const handleSubmit = async (
@@ -58,7 +62,6 @@ const PhoneForm = ({ initialValues, onSubmit }: PhoneFormProps) => {
     formikHelpers: FormikHelpers<SellFormValues>,
   ) => {
     await onSubmit(values, formikHelpers)
-    setPreview(null)
     setPhotoError("")
   }
 
@@ -92,6 +95,7 @@ const PhoneForm = ({ initialValues, onSubmit }: PhoneFormProps) => {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={PhoneSchema}
+      enableReinitialize
       validateOnMount
     >
       {({ setFieldValue, errors, submitCount }) => {
@@ -201,7 +205,7 @@ const PhoneForm = ({ initialValues, onSubmit }: PhoneFormProps) => {
                 </div>
 
                 <button className={css.submit} type="submit">
-                  SELL
+                  SAVE
                 </button>
               </div>
 
