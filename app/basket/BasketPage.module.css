@@ -167,3 +167,12 @@
 .checkoutBtn:hover {
   opacity: 0.9;
 }
+
+.emptyBasket {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.2;
+  color: var(--hover-links);
+  margin-top: 32px;
+}

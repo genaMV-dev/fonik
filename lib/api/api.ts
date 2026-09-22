@@ -69,6 +69,12 @@ export interface AddToBasketResponse {
   message: string
 }
 
+export interface RemoveFromBasketResponse {
+  message: string
+}
+
+export type GetBasketResponse = PhoneItem[]
+
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
@@ -181,5 +187,19 @@ export const addToBasket = async (
   const { data } = await api.post<AddToBasketResponse>(
     `/phones/${phoneId}/basket`,
   )
+  return data
+}
+
+export const removeFromBasket = async (
+  phoneId: string,
+): Promise<RemoveFromBasketResponse> => {
+  const { data } = await api.delete<RemoveFromBasketResponse>(
+    `/phones/${phoneId}/basket`,
+  )
+  return data
+}
+
+export const getBasket = async (): Promise<GetBasketResponse> => {
+  const { data } = await api.get<GetBasketResponse>("/phones/basket")
   return data
 }

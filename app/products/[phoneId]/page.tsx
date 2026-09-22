@@ -5,10 +5,11 @@ import { LuHardDrive } from "react-icons/lu"
 import { MdOutlineVerified } from "react-icons/md"
 import { RiBatteryChargeFill } from "react-icons/ri"
 import { BsClockHistory } from "react-icons/bs"
-import { SlBasket } from "react-icons/sl"
 import { GrContact } from "react-icons/gr"
-import { FaRegUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa"
 import Link from "next/link"
+import { AddToBasketButton } from "@/components/AddToBasketButton/AddToBasketButton";
+
 
 type Props = {
   params: Promise<{ phoneId: string }>
@@ -36,7 +37,7 @@ const PhonePage = async ({ params }: Props) => {
           alt={phone.name}
           width={700}
           height={650}
-        ></Image>
+        />
       </div>
 
       <div className={css.textContainer}>
@@ -88,9 +89,7 @@ const PhonePage = async ({ params }: Props) => {
         </div>
 
         <div className={css.buttons}>
-          <button className={css.addToBasketBtn} type="button">
-            ADD TO BASKET <SlBasket size={32} />
-          </button>
+          <AddToBasketButton phoneId={phone._id} />
 
           <Link
             className={css.contactLink}
@@ -103,8 +102,10 @@ const PhonePage = async ({ params }: Props) => {
         </div>
 
         <div className={css.infoAuthor}>
-            <p className={css.infoP}><FaRegUser size={32}/> Seller Information</p>
-            <p className={css.contactUser}>User contact: {phone.author}</p>
+          <p className={css.infoP}>
+            <FaRegUser size={32} /> Seller Information
+          </p>
+          <p className={css.contactUser}>User contact: {phone.author}</p>
         </div>
       </div>
     </div>

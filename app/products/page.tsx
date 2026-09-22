@@ -5,12 +5,14 @@ import Link from "next/link"
 import css from "./ProductsPage.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
-import { getAllPhones, addToBasket, PhoneItem } from "@/lib/api/api"
+import { getAllPhones, addToBasket, getBasket, PhoneItem } from "@/lib/api/api"
 import Loader from "@/components/Loader/Loader"
 import toast from "react-hot-toast"
+import { useAuthStore } from "@/lib/store/authStore"
 
 const ProductsPage = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
+  const [basketItemIds, setBasketItemIds] = useState<string[]>([])
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(true)
@@ -18,14 +20,27 @@ const ProductsPage = () => {
   const [addingId, setAddingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const incrementBasketCount = useAuthStore((state) => state.incrementBasketCount)
+
   useEffect(() => {
-    const fetchInitialPhones = async (): Promise<void> => {
+    const fetchInitialData = async (): Promise<void> => {
       try {
         setLoading(true)
         setError(null)
-        const data = await getAllPhones({ page: 1, perPage: 6 })
-        setPhones(data.phones)
-        setTotalPages(data.totalPages)
+
+        // Завантажуємо список товарів та кошик паралельно
+        const [productsData, basketData] = await Promise.all([
+          getAllPhones({ page: 1, perPage: 6 }),
+          isAuthenticated ? getBasket().catch(() => []) : Promise.resolve([]),
+        ])
+
+        setPhones(productsData.phones)
+        setTotalPages(productsData.totalPages)
+
+        if (Array.isArray(basketData)) {
+          setBasketItemIds(basketData.map((item) => item._id))
+        }
       } catch (err) {
         console.error("Error fetching products:", err)
         setError("Failed to load products")
@@ -34,8 +49,8 @@ const ProductsPage = () => {
       }
     }
 
-    fetchInitialPhones()
-  }, [])
+    fetchInitialData()
+  }, [isAuthenticated])
 
   const handleLoadMore = async (): Promise<void> => {
     if (page >= totalPages || loadingMore) return
@@ -58,6 +73,13 @@ const ProductsPage = () => {
     try {
       setAddingId(phoneId)
       const res = await addToBasket(phoneId)
+
+      // Додаємо ID товару в локальний масив кошика
+      setBasketItemIds((prev) => [...prev, phoneId])
+
+      // Збільшуємо лічильник у Zustand
+      incrementBasketCount()
+
       toast.success(res.message || "Added to basket!")
     } catch (err) {
       console.error("Error adding to basket:", err)
@@ -87,6 +109,8 @@ const ProductsPage = () => {
                 ? phone.photo
                 : "/placeholder.png"
 
+            const isInBasket = basketItemIds.includes(phone._id)
+
             return (
               <li key={phone._id} className={css.adsItem}>
                 <div className={css.wrapper}>
@@ -108,16 +132,18 @@ const ProductsPage = () => {
                     </Link>
                   </div>
 
-                  <div className={css.basket}>
-                    <button
-                      className={css.basketBtn}
-                      type="button"
-                      onClick={() => handleAddToBasket(phone._id)}
-                      disabled={addingId === phone._id}
-                    >
-                      <SlBasket size={25} />
-                    </button>
-                  </div>
+                  {!isInBasket && (
+                    <div className={css.basket}>
+                      <button
+                        className={css.basketBtn}
+                        type="button"
+                        onClick={() => handleAddToBasket(phone._id)}
+                        disabled={addingId === phone._id}
+                      >
+                        <SlBasket size={25} />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <p className={css.description}>

@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import css from "./Header.module.css"
 import Image from "next/image"
@@ -7,19 +8,45 @@ import { SlBasket } from "react-icons/sl"
 import { useAuthStore } from "@/lib/store/authStore"
 import { usePathname, useRouter } from "next/navigation"
 import { RiLogoutBoxRLine } from "react-icons/ri"
-import { logoutUser } from "@/lib/api/api"
+import { getBasket, logoutUser } from "@/lib/api/api"
 
 const Header = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const basketCount = useAuthStore((state) => state.basketCount)
+  const setBasketCount = useAuthStore((state) => state.setBasketCount)
+
   const router = useRouter()
   const pathname = usePathname()
+
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    let isMounted = true
+
+    const fetchBasket = async () => {
+      try {
+        const data = await getBasket()
+        if (isMounted) {
+          setBasketCount(data.length)
+        }
+      } catch (error) {
+        console.error("Failed to fetch basket count:", error)
+      }
+    }
+
+    fetchBasket()
+
+    return () => {
+      isMounted = false
+    }
+  }, [isAuthenticated, setBasketCount])
 
   const hiddenRoutes = ["/login", "/register"]
 
   if (hiddenRoutes.includes(pathname)) {
     return (
       <div className={css.container}>
-        <Link className={css.logo} href="./">
+        <Link className={css.logo} href="/">
           <Image
             className={css.icon}
             src="/logo.ico"
@@ -46,7 +73,7 @@ const Header = () => {
 
   return (
     <header className={css.header}>
-      <Link className={css.logo} href="./">
+      <Link className={css.logo} href="/">
         <Image
           className={css.icon}
           src="/logo.ico"
@@ -59,7 +86,7 @@ const Header = () => {
 
       <ul className={css.navList}>
         <li className={css.navItem}>
-          <Link href="./">HOME</Link>
+          <Link href="/">HOME</Link>
         </li>
         <li className={css.navItem}>
           <Link href="/products">PRODUCTS</Link>
@@ -78,7 +105,9 @@ const Header = () => {
         <div className={css.basketWrapper}>
           <Link href="/basket">
             <SlBasket size={50} />
-            <div className={css.counter}>5</div>
+            {basketCount > 0 && (
+              <div className={css.counter}>{basketCount}</div>
+            )}
           </Link>
 
           <button className={css.logout} type="button" onClick={handleLogout}>

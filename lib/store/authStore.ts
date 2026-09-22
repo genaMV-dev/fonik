@@ -17,9 +17,13 @@ interface AuthStore {
   user: AuthUser | null
   isAuthenticated: boolean
   hasHydrated: boolean
+  basketCount: number
   setUser: (user: AuthUser, token?: string) => void
   updateUser: (user: Partial<AuthUser>) => void
   clearAuth: () => void
+  setBasketCount: (count: number) => void
+  incrementBasketCount: () => void
+  decrementBasketCount: () => void
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -28,6 +32,7 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       isAuthenticated: false,
       hasHydrated: false,
+      basketCount: 0,
 
       setUser: (user, token) => {
         const sessionToken =
@@ -61,8 +66,17 @@ export const useAuthStore = create<AuthStore>()(
         set({
           user: null,
           isAuthenticated: false,
+          basketCount: 0,
         })
       },
+
+      setBasketCount: (count) => set({ basketCount: count }),
+
+      incrementBasketCount: () =>
+        set((state) => ({ basketCount: state.basketCount + 1 })),
+
+      decrementBasketCount: () =>
+        set((state) => ({ basketCount: Math.max(0, state.basketCount - 1) })),
     }),
     {
       name: "fonik-auth",
@@ -83,6 +97,7 @@ export const useAuthStore = create<AuthStore>()(
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
+        basketCount: state.basketCount,
       }),
     },
   ),
