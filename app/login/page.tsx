@@ -44,13 +44,7 @@ const LoginPage = () => {
       const response = await loginUser(values)
 
       if (response) {
-        const token =
-          response.accessToken ||
-          response.sessionId ||
-          response.token ||
-          response._id
-
-        setUser(response, token)
+        setUser(response)
         resetForm()
         router.push("/")
       }

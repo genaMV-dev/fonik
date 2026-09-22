@@ -10,6 +10,8 @@ import Loader from "@/components/Loader/Loader"
 import toast from "react-hot-toast"
 import { useAuthStore } from "@/lib/store/authStore"
 
+const PER_PAGE = 6
+
 const ProductsPage = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
   const [basketItemIds, setBasketItemIds] = useState<string[]>([])
@@ -31,7 +33,7 @@ const ProductsPage = () => {
 
         // Завантажуємо список товарів та кошик паралельно
         const [productsData, basketData] = await Promise.all([
-          getAllPhones({ page: 1, perPage: 6 }),
+          getAllPhones({ page: 1, perPage: PER_PAGE }),
           isAuthenticated ? getBasket().catch(() => []) : Promise.resolve([]),
         ])
 
@@ -58,18 +60,25 @@ const ProductsPage = () => {
     const nextPage = page + 1
     try {
       setLoadingMore(true)
-      const data = await getAllPhones({ page: nextPage, perPage: 12 })
+      const data = await getAllPhones({ page: nextPage, perPage: PER_PAGE })
+      
       setPhones((prev) => [...prev, ...data.phones])
       setPage(nextPage)
       setTotalPages(data.totalPages)
     } catch (err) {
       console.error("Error loading more products:", err)
+      toast.error("Failed to load more products")
     } finally {
       setLoadingMore(false)
     }
   }
 
   const handleAddToBasket = async (phoneId: string): Promise<void> => {
+    if (!isAuthenticated) {
+      toast.error("Please log in to add items to basket")
+      return
+    }
+
     try {
       setAddingId(phoneId)
       const res = await addToBasket(phoneId)
@@ -132,8 +141,8 @@ const ProductsPage = () => {
                     </Link>
                   </div>
 
-                  {!isInBasket && (
-                    <div className={css.basket}>
+                  <div className={css.basket}>
+                    {!isInBasket && (
                       <button
                         className={css.basketBtn}
                         type="button"
@@ -142,8 +151,8 @@ const ProductsPage = () => {
                       >
                         <SlBasket size={25} />
                       </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
 
                 <p className={css.description}>

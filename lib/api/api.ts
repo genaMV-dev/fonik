@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AuthUser } from "../store/authStore"
+import { useAuthStore, AuthUser } from "../store/authStore"
 
 export const STORAGE = [8, 16, 32, 64, 128, 256]
 export const BATTERY = ["100%", "85%-99%", "Below 85%"]
@@ -73,12 +73,74 @@ export interface RemoveFromBasketResponse {
   message: string
 }
 
+export interface DeletePhoneResponse {
+  message: string
+}
+
 export type GetBasketResponse = PhoneItem[]
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
 })
+
+// Змінні для керування чергою під час рефрешу токена
+let isRefreshing = false
+let failedQueue: Array<{
+  resolve: (value?: unknown) => void
+  reject: (reason?: unknown) => void
+}> = []
+
+const processQueue = (error: unknown) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error)
+    } else {
+      prom.resolve()
+    }
+  })
+  failedQueue = []
+}
+
+// Interceptor для перехоплення 401 помилок та автоматичного виконання /auth/refresh
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("/auth/refresh") &&
+      !originalRequest.url?.includes("/auth/login")
+    ) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject })
+        })
+          .then(() => api(originalRequest))
+          .catch((err) => Promise.reject(err))
+      }
+
+      originalRequest._retry = true
+      isRefreshing = true
+
+      try {
+        await api.post("/auth/refresh")
+        processQueue(null)
+        return api(originalRequest)
+      } catch (refreshError) {
+        processQueue(refreshError)
+        useAuthStore.getState().clearAuth()
+        return Promise.reject(refreshError)
+      } finally {
+        isRefreshing = false
+      }
+    }
+
+    return Promise.reject(error)
+  }
+)
 
 export const registerUser = async (
   userData: RegisterDTO,
@@ -155,6 +217,13 @@ export const updatePhone = async (
   }
 
   const { data } = await api.patch<PhoneItem>(`/phones/${phoneId}`, payload)
+  return data
+}
+
+export const deletePhoneById = async (
+  phoneId: string,
+): Promise<DeletePhoneResponse> => {
+  const { data } = await api.delete<DeletePhoneResponse>(`/phones/${phoneId}`)
   return data
 }
 

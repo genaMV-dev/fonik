@@ -6,8 +6,11 @@ import css from "./MyAds.module.css"
 import { FiPlusCircle } from "react-icons/fi"
 import Image from "next/image"
 import { MdModeEditOutline, MdDelete } from "react-icons/md"
-import { getMyPhones, PhoneItem } from "@/lib/api/api"
+import { getMyPhones, deletePhoneById, PhoneItem } from "@/lib/api/api"
 import Loader from "@/components/Loader/Loader"
+import toast from "react-hot-toast"
+
+const PER_PAGE = 5
 
 const MyAds = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
@@ -15,6 +18,7 @@ const MyAds = () => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -22,8 +26,7 @@ const MyAds = () => {
       try {
         setLoading(true)
         setError(null)
-        // Запитуємо тільки мої оголошення
-        const data = await getMyPhones({ page: 1, perPage: 11 })
+        const data = await getMyPhones({ page: 1, perPage: PER_PAGE })
         setPhones(data.phones)
         setTotalPages(data.totalPages)
       } catch (err) {
@@ -43,14 +46,33 @@ const MyAds = () => {
     const nextPage = page + 1
     try {
       setLoadingMore(true)
-      const data = await getMyPhones({ page: nextPage, perPage: 12 })
+      const data = await getMyPhones({ page: nextPage, perPage: PER_PAGE })
       setPhones((prev) => [...prev, ...data.phones])
       setPage(nextPage)
       setTotalPages(data.totalPages)
     } catch (err) {
       console.error("Error loading more of my ads:", err)
+      toast.error("Failed to load more ads")
     } finally {
       setLoadingMore(false)
+    }
+  }
+
+  const handleDelete = async (phoneId: string): Promise<void> => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this ad?")
+    if (!isConfirmed) return
+
+    try {
+      setDeletingId(phoneId)
+      const res = await deletePhoneById(phoneId)
+
+      setPhones((prev) => prev.filter((phone) => phone._id !== phoneId))
+      toast.success(res.message || "Ad deleted successfully")
+    } catch (err) {
+      console.error("Error deleting ad:", err)
+      toast.error("Failed to delete ad")
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -90,7 +112,12 @@ const MyAds = () => {
                     <MdModeEditOutline className={css.editIcon} size={25} />
                   </Link>
 
-                  <button className={css.deleteBtn} type="button">
+                  <button
+                    className={css.deleteBtn}
+                    type="button"
+                    onClick={() => handleDelete(phone._id)}
+                    disabled={deletingId === phone._id}
+                  >
                     <MdDelete className={css.deleteIcon} size={25} />
                   </button>
 
@@ -115,9 +142,7 @@ const MyAds = () => {
           })}
         </ul>
 
-        {loading && (
-            <Loader />
-        )}
+        {loading && <Loader />}
       </div>
 
       {page < totalPages && (
@@ -128,7 +153,7 @@ const MyAds = () => {
             onClick={handleLoadMore}
             disabled={loadingMore}
           >
-            {loadingMore ? "Loading..." : "LOAD MORE"}
+            {loadingMore ? "LOADING..." : "LOAD MORE"}
           </button>
         </div>
       )}

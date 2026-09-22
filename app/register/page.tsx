@@ -51,13 +51,7 @@ const RegisterPage = () => {
       const newUser = await registerUser(values)
 
       if (newUser) {
-        const token =
-          newUser.accessToken ||
-          newUser.sessionId ||
-          newUser.token ||
-          newUser._id
-
-        setUser(newUser, token)
+        setUser(newUser)
         resetForm()
         router.push("/")
       }

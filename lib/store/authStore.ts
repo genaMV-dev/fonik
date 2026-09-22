@@ -1,16 +1,12 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import Cookies from "js-cookie"
+import { logoutUser } from "../api/api"
 
 export type AuthUser = {
   _id: string
   username: string
   email: string
   avatar?: string | null
-  accessToken?: string
-  refreshToken?: string
-  sessionId?: string
-  token?: string
 }
 
 interface AuthStore {
@@ -18,9 +14,10 @@ interface AuthStore {
   isAuthenticated: boolean
   hasHydrated: boolean
   basketCount: number
-  setUser: (user: AuthUser, token?: string) => void
+  setUser: (user: AuthUser) => void
   updateUser: (user: Partial<AuthUser>) => void
   clearAuth: () => void
+  logout: () => Promise<void>
   setBasketCount: (count: number) => void
   incrementBasketCount: () => void
   decrementBasketCount: () => void
@@ -28,46 +25,40 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       isAuthenticated: false,
       hasHydrated: false,
       basketCount: 0,
 
-      setUser: (user, token) => {
-        const sessionToken =
-          token ||
-          user.accessToken ||
-          user.sessionId ||
-          user.token ||
-          user._id
-
-        if (sessionToken) {
-          Cookies.set("sessionId", sessionToken, { expires: 7, path: "/" })
-        }
-
+      setUser: (user) => {
         set({
-          user: {
-            ...user,
-            accessToken: sessionToken,
-          },
+          user,
           isAuthenticated: true,
         })
       },
 
-      updateUser: (user) =>
+      updateUser: (updatedFields) =>
         set((state) => ({
-          user: state.user ? { ...state.user, ...user } : null,
+          user: state.user ? { ...state.user, ...updatedFields } : null,
         })),
 
       clearAuth: () => {
-        Cookies.remove("sessionId", { path: "/" })
-
         set({
           user: null,
           isAuthenticated: false,
           basketCount: 0,
         })
+      },
+
+      logout: async () => {
+        try {
+          await logoutUser()
+        } catch (error) {
+          console.error("Logout request failed:", error)
+        } finally {
+          get().clearAuth()
+        }
       },
 
       setBasketCount: (count) => set({ basketCount: count }),
@@ -81,18 +72,11 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: "fonik-auth",
       onRehydrateStorage: () => (state) => {
-        if (state?.user) {
-          const token =
-            state.user.accessToken ||
-            state.user.sessionId ||
-            state.user.token ||
-            state.user._id
-
-          if (token) {
-            Cookies.set("sessionId", token, { expires: 7, path: "/" })
-          }
+        if (state) {
+          state.hasHydrated = true
+          // Перевіряємо, чи є користувач, і виставляємо справжній статус
+          state.isAuthenticated = !!state.user
         }
-        useAuthStore.setState({ hasHydrated: true })
       },
       partialize: (state) => ({
         user: state.user,
