@@ -9,8 +9,8 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
 const slides = [
   { src: "/img/iphone17.webp", alt: "IPHONE 17" },
   { src: "/img/SamsungS24.webp", alt: "Samsung S24" },
-  { src: "/img/GooglePixel.webp", alt: "Google Pixel" },
-  { src: "/img/Xiaomi17T.webp", alt: "Xiaomi 17T" },
+  { src: "/img/GooglePixel1.webp", alt: "Google Pixel" },
+  { src: "/img/Xiaomi17.webp", alt: "Xiaomi 17T" },
 ]
 
 export default function Home() {
