@@ -1,19 +1,22 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import css from "./Header.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
 import { useAuthStore } from "@/lib/store/authStore"
 import { usePathname, useRouter } from "next/navigation"
-import { RiLogoutBoxRLine } from "react-icons/ri"
-import { getBasket, logoutUser } from "@/lib/api/api"
+import { getBasket, getCurrentUser, logoutUser } from "@/lib/api/api"
+import ProfileList from "../ProfileList/ProfileList"
 
 const Header = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const basketCount = useAuthStore((state) => state.basketCount)
   const setBasketCount = useAuthStore((state) => state.setBasketCount)
+
+  const [avatar, setAvatar] = useState<string | null>(null)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -23,18 +26,25 @@ const Header = () => {
 
     let isMounted = true
 
-    const fetchBasket = async () => {
+    const fetchHeaderData = async () => {
       try {
-        const data = await getBasket()
+        const [basketData, userData] = await Promise.all([
+          getBasket(),
+          getCurrentUser(),
+        ])
+
         if (isMounted) {
-          setBasketCount(data.length)
+          setBasketCount(basketData.length)
+          if (userData?.avatar) {
+            setAvatar(userData.avatar)
+          }
         }
       } catch (error) {
-        console.error("Failed to fetch basket count:", error)
+        console.error("Failed to fetch header user/basket data:", error)
       }
     }
 
-    fetchBasket()
+    fetchHeaderData()
 
     return () => {
       isMounted = false
@@ -67,8 +77,13 @@ const Header = () => {
       console.error("Logout error on backend:", error)
     } finally {
       useAuthStore.getState().clearAuth()
+      setIsProfileOpen(false)
       router.push("/")
     }
+  }
+
+  const toggleProfileMenu = () => {
+    setIsProfileOpen((prev) => !prev)
   }
 
   return (
@@ -110,9 +125,28 @@ const Header = () => {
             )}
           </Link>
 
-          <button className={css.logout} type="button" onClick={handleLogout}>
-            <RiLogoutBoxRLine size={50} />
-          </button>
+          <div style={{ position: "relative" }}>
+            <button
+              className={css.profileListBtn}
+              type="button"
+              onClick={toggleProfileMenu}
+            >
+              <Image
+                src={avatar || "/placeholder.png"}
+                alt="User avatar"
+                width={50}
+                height={50}
+                className={css.avatarImage}
+              />
+            </button>
+
+            {isProfileOpen && (
+              <ProfileList
+                onLogout={handleLogout}
+                onClose={() => setIsProfileOpen(false)}
+              />
+            )}
+          </div>
         </div>
       ) : (
         <div>

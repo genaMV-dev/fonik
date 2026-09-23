@@ -81,10 +81,21 @@
   color: var(--white);
 }
 
-.logout {
+.profileListBtn {
   position: absolute;
-  right: -90px;
-  top: 3px;
+  right: -86px;
+  top: -50px;
+  border: 2px solid var(--links);
+  border-radius: 50%;
+  transition: border 0.3s ease;
+}
+
+.profileListBtn:hover{
+  border: 2px solid var(--hover-links);
+}
+
+.avatarImage{
+  border-radius: 50%;
 }
 
 .unAuthList {

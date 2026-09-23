@@ -1,0 +1,42 @@
+.container {
+  position: absolute;
+  right: -146px;
+  padding: 12px 20px;
+  max-height: 160px;
+  min-width: 220px;
+  border: 2px solid var(--main);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.profileList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profileItem {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--links);
+  position: relative;
+}
+
+.logoutIcon {
+  position: absolute;
+  left: 80px;
+  bottom: 3px;
+}
+
+.editIcon {
+  position: absolute;
+  left: 159px;
+  bottom: 4px;
+}
+
+.profileIcon {
+  position: absolute;
+  left: 114px;
+  bottom: 4px;
+}

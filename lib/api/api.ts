@@ -21,6 +21,15 @@ export interface LogoutResponse {
   message: string
 }
 
+export interface UserDTO {
+  _id: string
+  username: string
+  email: string
+  avatar?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
 export interface CreatePhoneDTO {
   name: string
   description: string
@@ -139,7 +148,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  }
+  },
 )
 
 export const registerUser = async (
@@ -161,6 +170,11 @@ export const logoutUser = async (): Promise<LogoutResponse> => {
 
 export const refreshUserSession = async (): Promise<void> => {
   await api.post("/auth/refresh")
+}
+
+export const getCurrentUser = async (): Promise<UserDTO> => {
+  const { data } = await api.get<{ user: UserDTO }>("/users/me")
+  return data.user
 }
 
 export const createAd = async (values: CreatePhoneDTO): Promise<PhoneItem> => {
