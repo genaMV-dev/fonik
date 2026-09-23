@@ -1,0 +1,186 @@
+/* Ваші початкові стилі залишені без змін */
+.container {
+  padding: 40px 160px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.2;
+  color: var(--main);
+  margin-bottom: 32px;
+  letter-spacing: 0.05em;
+}
+
+
+.card {
+  border: 2px solid var(--main);
+  border-radius: 24px;
+  padding: 40px;
+  background-color: var(--white);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.formContent {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 220px;
+}
+
+.sectionTitle {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--text);
+}
+
+.avatarWrapper {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--hover-btn);
+  position: relative;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.uploadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 44px;
+  border-radius: 22px;
+  border: 2px solid var(--main);
+  background-color: var(--white);
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.uploadBtn:hover {
+  background-color: var(--main);
+  color: var(--white);
+}
+
+.fileInput {
+  display: none;
+}
+
+.infoSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+}
+
+.input {
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 12px;
+  border: 2px solid var(--main);
+  font-family: var(--second-family);
+  font-size: 18px;
+  color: var(--text);
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--hover-btn);
+}
+
+.hint {
+  font-family: var(--second-family);
+  font-size: 14px;
+  color: #777;
+}
+
+.actionsGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.saveBtn,
+.cancelBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 28px;
+  height: 48px;
+  border-radius: 24px;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.saveBtn {
+  border: 2px solid var(--main);
+  background-color: var(--white);
+  color: var(--text);
+}
+
+.saveBtn:hover:not(:disabled) {
+  background-color: var(--main);
+  color: var(--white);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  border: 2px solid #aaa;
+  background-color: var(--white);
+  color: #666;
+}
+
+.cancelBtn:hover {
+  border-color: #777;
+  color: #333;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  margin-bottom: 20px;
+  font-family: var(--second-family);
+  font-weight: 600;
+}

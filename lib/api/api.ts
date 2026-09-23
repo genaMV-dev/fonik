@@ -13,6 +13,7 @@ export interface RegisterDTO {
 }
 
 export interface LoginDTO {
+  username?: string
   email: string
   password: string
 }
@@ -28,6 +29,11 @@ export interface UserDTO {
   avatar?: string
   createdAt?: string
   updatedAt?: string
+}
+
+export interface UpdateProfileDTO {
+  username?: string
+  file?: File | null
 }
 
 export interface CreatePhoneDTO {
@@ -93,7 +99,6 @@ const api = axios.create({
   withCredentials: true,
 })
 
-// Змінні для керування чергою під час рефрешу токена
 let isRefreshing = false
 let failedQueue: Array<{
   resolve: (value?: unknown) => void
@@ -111,7 +116,6 @@ const processQueue = (error: unknown) => {
   failedQueue = []
 }
 
-// Interceptor для перехоплення 401 помилок та автоматичного виконання /auth/refresh
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -174,6 +178,29 @@ export const refreshUserSession = async (): Promise<void> => {
 
 export const getCurrentUser = async (): Promise<UserDTO> => {
   const { data } = await api.get<{ user: UserDTO }>("/users/me")
+  return data.user
+}
+
+// Новий запит на оновлення профілю (username + avatar)
+export const updateUserProfile = async (
+  values: UpdateProfileDTO,
+): Promise<UserDTO> => {
+  const formData = new FormData()
+
+  if (values.username?.trim()) {
+    formData.append("username", values.username.trim())
+  }
+
+  if (values.file) {
+    formData.append("avatar", values.file)
+  }
+
+  const { data } = await api.patch<{ user: UserDTO }>("/users/me", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  })
+
   return data.user
 }
 

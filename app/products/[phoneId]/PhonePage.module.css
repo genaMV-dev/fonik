@@ -10,7 +10,7 @@
 
 .image {
   border-radius: 16px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .textContainer {
@@ -43,11 +43,11 @@
   margin-top: 16px;
 }
 
-/* Опис із фіксованою висотою та скроллом */
+
 .description {
   font-family: var(--second-family);
   font-weight: 500;
-  font-size: 18px; /* Оптимальний розмір для блоку опису */
+  font-size: 18px; 
   line-height: 140%;
   color: var(--text);
   margin-top: 8px;
@@ -55,10 +55,10 @@
   max-height: 120px;
   overflow-y: auto;
   padding-right: 8px;
-  word-break: break-word; /* Запобігає виходу довгих слів за межі */
+  word-break: break-word; 
 }
 
-/* Стилізація скроллбару (для кастомного вигляд) */
+
 .description::-webkit-scrollbar {
   width: 6px;
 }
