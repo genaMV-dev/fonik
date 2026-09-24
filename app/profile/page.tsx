@@ -89,7 +89,7 @@ const ProfilePage = () => {
           <div className={css.avatarWrapper}>
             <Image
               className={css.avatar}
-              src={user?.avatar || "/placeholder.png"}
+              src={user?.avatar || "/placeholder.webp"}
               alt="avatar"
               fill
               priority
@@ -133,7 +133,7 @@ const ProfilePage = () => {
               <div className={css.adsGrid}>
                 {previewAds.map((ad) => {
                   const imageUrl =
-                    typeof ad.photo === "string" ? ad.photo : "/placeholder.png"
+                    typeof ad.photo === "string" ? ad.photo : "/placeholder.webp"
 
                   return (
                     <div key={ad._id} className={css.adCard}>

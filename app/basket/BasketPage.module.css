@@ -185,15 +185,12 @@
   opacity: 0.9;
 }
 
-.emptyBasket {
-  font-family: var(--second-family);
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.2;
-  color: var(--hover-links);
-  margin-top: 24px;
-  text-align: center;
+.emptyBasketImg{
+  display: block;
+  margin: 0 auto;
 }
+
+
 
 /* TABLET (>=768px) */
 @media screen and (min-width: 768px) {
@@ -252,9 +249,9 @@
     font-size: 22px;
   }
 
-  .emptyBasket {
-    font-size: 30px;
-    text-align: left;
+  .emptyBasketImg{
+    width: 500px;
+    height: 500px;
   }
 }
 
@@ -321,5 +318,9 @@
   .emptyBasket {
     font-size: 36px;
     margin-top: 32px;
+  }
+  .emptyBasketImg{
+    width: 600px;
+    height: 600px;
   }
 }

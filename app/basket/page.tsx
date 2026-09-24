@@ -14,7 +14,9 @@ const BasketPage = () => {
   const [error, setError] = useState<string | null>(null)
 
   const setBasketCount = useAuthStore((state) => state.setBasketCount)
-  const decrementBasketCount = useAuthStore((state) => state.decrementBasketCount)
+  const decrementBasketCount = useAuthStore(
+    (state) => state.decrementBasketCount,
+  )
 
   useEffect(() => {
     const fetchBasket = async () => {
@@ -38,7 +40,7 @@ const BasketPage = () => {
     try {
       await removeFromBasket(phoneId)
       setPhones((prevPhones) =>
-        prevPhones.filter((phone) => phone._id !== phoneId)
+        prevPhones.filter((phone) => phone._id !== phoneId),
       )
       // Зменшуємо лічильник у шапці
       decrementBasketCount()
@@ -62,7 +64,13 @@ const BasketPage = () => {
       <h2 className={css.title}>YOUR BASKET</h2>
 
       {phones.length === 0 ? (
-        <p className={css.emptyBasket}>Your basket is empty.</p>
+        <Image
+          className={css.emptyBasketImg}
+          src="/EmptyBasket.webp"
+          alt="Your basket is empty"
+          width={350}
+          height={350}
+        />
       ) : (
         <div className={css.basketContent}>
           <ul className={css.basketList}>
@@ -70,7 +78,7 @@ const BasketPage = () => {
               const imageSrc =
                 typeof phone.photo === "string" && phone.photo
                   ? phone.photo
-                  : "/placeholder.png"
+                  : "/placeholder.webp"
 
               return (
                 <li className={css.basketItem} key={phone._id}>

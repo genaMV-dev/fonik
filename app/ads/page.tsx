@@ -103,7 +103,7 @@ const MyAds = () => {
             const imageUrl =
               typeof phone.photo === "string" && phone.photo
                 ? phone.photo
-                : "/placeholder.png"
+                : "/placeholder.webp"
 
             return (
               <li key={phone._id} className={css.adsItem}>

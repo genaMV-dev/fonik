@@ -116,7 +116,7 @@ const ProductsPage = () => {
             const imageUrl =
               typeof phone.photo === "string" && phone.photo
                 ? phone.photo
-                : "/placeholder.png"
+                : "/placeholder.webp"
 
             const isInBasket = basketItemIds.includes(phone._id)
 

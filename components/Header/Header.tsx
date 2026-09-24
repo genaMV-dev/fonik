@@ -154,7 +154,7 @@ const Header = () => {
                 onClick={toggleProfileMenu}
               >
                 <Image
-                  src={avatar || "/placeholder.png"}
+                  src={avatar || "/placeholder.webp"}
                   alt="User avatar"
                   width={40}
                   height={40}

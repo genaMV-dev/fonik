@@ -8,11 +8,12 @@ import { FaUpload, FaCheck, FaTimes } from "react-icons/fa"
 import axios from "axios"
 import css from "./EditProfilePage.module.css"
 import { getCurrentUser, updateUserProfile, UserDTO } from "@/lib/api/api"
+import ProfileLoader from "@/components/ProfileLoader/ProfileLoader"
 
 const EditProfilePage = () => {
   const [username, setUsername] = useState("")
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
-  const [avatarPreview, setAvatarPreview] = useState<string>("/placeholder.png")
+  const [avatarPreview, setAvatarPreview] = useState<string>("/placeholder.webp")
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -73,7 +74,11 @@ const EditProfilePage = () => {
   }
 
   if (loading) {
-    return <div className={css.container}>Loading...</div>
+    return (
+      <div className={css.container}>
+        <ProfileLoader />
+      </div>
+    )
   }
 
   return (
@@ -129,7 +134,8 @@ const EditProfilePage = () => {
                   required
                 />
                 <p className={css.hint}>
-                  Username can only contain letters, numbers, and underscores (max 32 characters).
+                  Username can only contain letters, numbers, and underscores
+                  (max 32 characters).
                 </p>
               </div>
 

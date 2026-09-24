@@ -26,7 +26,7 @@ const PhonePage = async ({ params }: Props) => {
   const imageSrc =
     typeof phone.photo === "string" && phone.photo
       ? phone.photo
-      : "/placeholder.png"
+      : "/placeholder.webp"
 
   return (
     <div className={css.container}>
