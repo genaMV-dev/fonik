@@ -1,7 +1,7 @@
-/* Ваші початкові стилі залишені без змін */
+/* Mobile view (default) */
 .container {
-  padding: 40px 160px;
-  max-width: 1440px;
+  padding: 24px 16px 80px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -9,26 +9,26 @@
   text-align: center;
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 48px;
+  font-size: 28px;
   line-height: 1.2;
   color: var(--main);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   letter-spacing: 0.05em;
 }
 
-
 .card {
   border: 2px solid var(--main);
-  border-radius: 24px;
-  padding: 40px;
+  border-radius: 20px;
+  padding: 24px 16px;
   background-color: var(--white);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .formContent {
   display: flex;
-  gap: 60px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
 }
 
 .avatarSection {
@@ -36,23 +36,25 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  flex: 0 0 220px;
+  width: 100%;
 }
 
 .sectionTitle {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   color: var(--text);
+  text-align: center;
 }
 
 .avatarWrapper {
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--hover-btn);
   position: relative;
+  flex-shrink: 0;
 }
 
 .avatar {
@@ -65,6 +67,7 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
+  max-width: 240px;
   height: 44px;
   border-radius: 22px;
   border: 2px solid var(--main);
@@ -87,10 +90,10 @@
 }
 
 .infoSection {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 .inputGroup {
@@ -102,18 +105,18 @@
 .label {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 18px;
   color: var(--text);
 }
 
 .input {
   width: 100%;
-  height: 52px;
-  padding: 0 20px;
+  height: 48px;
+  padding: 0 16px;
   border-radius: 12px;
   border: 2px solid var(--main);
   font-family: var(--second-family);
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text);
   outline: none;
 }
@@ -124,14 +127,16 @@
 
 .hint {
   font-family: var(--second-family);
-  font-size: 14px;
+  font-size: 13px;
   color: #777;
+  line-height: 1.4;
 }
 
 .actionsGroup {
   display: flex;
-  gap: 16px;
-  margin-top: 20px;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .saveBtn,
@@ -140,12 +145,12 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 0 28px;
+  width: 100%;
   height: 48px;
   border-radius: 24px;
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
@@ -183,4 +188,107 @@
   margin-bottom: 20px;
   font-family: var(--second-family);
   font-weight: 600;
+  text-align: center;
+}
+
+/* Tablet view (768px+) */
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 36px 32px;
+  }
+
+  .title {
+    font-size: 36px;
+    margin-bottom: 28px;
+  }
+
+  .card {
+    padding: 32px;
+    border-radius: 22px;
+  }
+
+  .formContent {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .avatarSection {
+    flex: 0 0 200px;
+  }
+
+  .avatarWrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .uploadBtn {
+    max-width: 100%;
+  }
+
+  .actionsGroup {
+    flex-direction: row;
+  }
+
+  .saveBtn,
+  .cancelBtn {
+    width: auto;
+    padding: 0 24px;
+  }
+}
+
+/* Desktop view (1440px+) */
+@media screen and (min-width: 1440px) {
+  .container {
+    padding: 40px 160px;
+    max-width: 1440px;
+  }
+
+  .title {
+    font-size: 48px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    padding: 40px;
+    border-radius: 24px;
+  }
+
+  .formContent {
+    gap: 60px;
+  }
+
+  .avatarSection {
+    flex: 0 0 220px;
+  }
+
+  .sectionTitle {
+    font-size: 24px;
+  }
+
+  .avatarWrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .label {
+    font-size: 22px;
+  }
+
+  .input {
+    height: 52px;
+    padding: 0 20px;
+    font-size: 18px;
+  }
+
+  .hint {
+    font-size: 14px;
+  }
+
+  .saveBtn,
+  .cancelBtn {
+    padding: 0 28px;
+    height: 48px;
+    font-size: 15px;
+  }
 }

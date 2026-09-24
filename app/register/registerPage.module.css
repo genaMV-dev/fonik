@@ -1,8 +1,9 @@
+/* Mobile view (default) */
 .container {
-  padding: 36px 160px;
+  padding: 40px 16px 24px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Піднімає форму догори */
 }
 
 .form {
@@ -10,8 +11,8 @@
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 32px;
+  gap: 16px;
+  padding: 24px 16px;
   background-color: var(--white);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -19,10 +20,10 @@
 
 .title {
   font-family: var(--second-family);
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 600;
   color: var(--text);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
@@ -30,25 +31,18 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.passwordInputWrapper {
   position: relative;
-}
-
-.buttonEye {
-  position: absolute;
-  top: 40px;
-  right: 18px;
-  color: var(--main);
-  transition: color 0.3s ease;
-}
-
-.buttonEye:hover{
-    color: var(--hover-btn);
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .label {
   font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--label);
 }
@@ -57,8 +51,8 @@
   font-family: var(--font-family);
   font-weight: 500;
   width: 100%;
-  padding: 14px 20px;
-  font-size: 20px;
+  padding: 12px 16px;
+  font-size: 16px;
   border: 2px solid var(--white);
   border-radius: 8px;
   outline: none;
@@ -68,25 +62,52 @@
   background-color: var(--white);
 }
 
+.passwordInput {
+  padding-right: 48px;
+}
+
 .input:focus {
   border-color: var(--main);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.error {
+.buttonEye {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: var(--main);
+  transition: color 0.3s ease;
+}
+
+.buttonEye:hover {
+  color: var(--hover-btn);
+}
+
+.error,
+.serverError {
   font-family: var(--font-family);
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--error);
   margin-top: 2px;
 }
 
+.serverError {
+  text-align: center;
+  margin-top: 0;
+}
+
 .submitBtn {
   margin-top: 8px;
-  padding: 14px;
+  padding: 12px;
   font-family: var(--second-family);
   font-size: 16px;
-  font-weight: 600;
   font-weight: 600;
   color: var(--white);
   background-color: var(--hover-links);
@@ -95,7 +116,7 @@
   cursor: pointer;
   transition:
     background-color 0.3s ease,
-    transform 0.3s ease;
+    transform 0.1s ease;
 }
 
 .submitBtn:hover {
@@ -103,10 +124,68 @@
 }
 
 .submitBtn:active {
-  transform: scale(0.9);
+  transform: scale(0.98);
 }
 
 .submitBtn:disabled {
   background-color: #93c5fd;
   cursor: not-allowed;
+}
+
+/* Tablet view (768px+) */
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 60px 32px 36px;
+  }
+
+  .form {
+    padding: 32px;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .label {
+    font-size: 15px;
+  }
+
+  .input {
+    padding: 14px 18px;
+    font-size: 18px;
+  }
+
+  .passwordInput {
+    padding-right: 52px;
+  }
+
+  .buttonEye {
+    right: 14px;
+  }
+
+  .submitBtn {
+    padding: 14px;
+  }
+}
+
+/* Desktop view (1440px+) */
+@media screen and (min-width: 1440px) {
+  .container {
+    padding: 80px 160px 36px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .label {
+    font-size: 16px;
+  }
+
+  .input {
+    padding: 14px 20px;
+    font-size: 20px;
+  }
 }

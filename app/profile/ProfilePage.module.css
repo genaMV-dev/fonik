@@ -1,6 +1,7 @@
+/* Mobile view (default) */
 .container {
-  padding: 40px 160px;
-  max-width: 1440px;
+  padding: 24px 16px 80px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -8,87 +9,94 @@
   text-align: center;
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 48px;
+  font-size: 28px;
   line-height: 1.2;
   color: var(--main);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   letter-spacing: 0.05em;
 }
 
 .card {
   border: 2px solid var(--main);
   border-radius: 24px;
-  padding: 40px;
+  padding: 24px 20px;
   background-color: var(--white);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .headerSection {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 36px;
+  text-align: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
 }
 
 .avatar {
   border-radius: 50%;
   border: 3px solid var(--hover-btn);
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .textInfo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
 }
 
 .username {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 40px;
+  font-size: 28px;
   line-height: 1.1;
   color: var(--text);
+  word-break: break-word;
 }
 
 .email {
   font-family: var(--second-family);
   font-weight: 400;
-  font-size: 24px;
+  font-size: 18px;
   color: var(--text);
+  word-break: break-all;
 }
 
 .joinedBadge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background-color: var(--white);
-  padding: 8px 16px;
-  border-radius: 8px;
+  gap: 8px;
+  background-color: transparent;
+  padding: 6px 0;
   font-family: var(--second-family);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--links);
-  margin-top: 6px;
-  width: fit-content;
+  margin-top: 4px;
 }
 
 .mainContent {
   display: flex;
-  gap: 40px;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .settingsColumn {
-  flex: 0 0 280px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.divider {
-  width: 1px;
-}
-
 .adsColumn {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -96,15 +104,15 @@
 .sectionTitle {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
   color: var(--text);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .buttonsGroup {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .changeProfileBtn,
@@ -114,13 +122,13 @@
   justify-content: center;
   gap: 10px;
   width: 100%;
-  height: 52px;
-  border-radius: 26px;
+  height: 48px;
+  border-radius: 24px;
   border: 2px solid var(--main);
   background-color: var(--white);
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -135,7 +143,7 @@
 
 .adsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
@@ -148,12 +156,13 @@
   flex-direction: column;
   gap: 12px;
   background-color: var(--white);
+  max-width: 240px;
 }
 
 .adImageWrapper {
   position: relative;
   width: 100%;
-  height: 120px;
+  height: 140px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -171,7 +180,7 @@
 .adTitle {
   font-family: var(--second-family);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
@@ -187,13 +196,13 @@
 .adPrice {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text);
 }
 
 .adStatus {
   font-family: var(--second-family);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -207,13 +216,13 @@
 
 .seeAllWrapper {
   margin-top: auto;
-  text-align: center;
+  text-align: right;
 }
 
 .seeAllLink {
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text);
   text-decoration: underline;
   letter-spacing: 0.05em;
@@ -227,5 +236,120 @@
 .emptyAdsText {
   font-family: var(--second-family);
   color: #888;
-  font-size: 16px;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+/* Tablet view (768px+) */
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 36px 32px;
+  }
+
+  .title {
+    font-size: 36px;
+    margin-bottom: 28px;
+  }
+
+  .card {
+    padding: 36px;
+  }
+
+  .headerSection {
+    flex-direction: row;
+    text-align: left;
+    gap: 28px;
+  }
+
+  .avatarWrapper {
+    width: 140px;
+    height: 140px;
+  }
+
+  .textInfo {
+    align-items: flex-start;
+  }
+
+  .username {
+    font-size: 36px;
+  }
+
+  .email {
+    font-size: 22px;
+  }
+
+  .mainContent {
+    flex-direction: row;
+    gap: 48px;
+  }
+
+  .settingsColumn {
+    flex: 0 0 240px;
+  }
+
+  .adsColumn {
+    flex: 1;
+  }
+}
+
+/* Desktop view (1440px+) */
+@media screen and (min-width: 1440px) {
+  .container {
+    padding: 40px 160px;
+    max-width: 1440px;
+  }
+
+  .title {
+    font-size: 48px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    padding: 40px;
+  }
+
+  .headerSection {
+    gap: 32px;
+    margin-bottom: 36px;
+  }
+
+  .avatarWrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .username {
+    font-size: 40px;
+  }
+
+  .email {
+    font-size: 24px;
+  }
+
+  .joinedBadge {
+    font-size: 16px;
+  }
+
+  .mainContent {
+    gap: 60px;
+  }
+
+  .settingsColumn {
+    flex: 0 0 260px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+
+  .changeProfileBtn,
+  .logoutBtn {
+    height: 52px;
+    font-size: 15px;
+  }
+
+  .adsGrid {
+    grid-template-columns: repeat(3, 220px);
+    gap: 20px;
+  }
 }

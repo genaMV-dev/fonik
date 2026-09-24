@@ -17,17 +17,14 @@ const ProfileList = ({ onLogout, onClose }: ProfileListProps) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Якщо клік відбувся поза контейнером menuRef, закриваємо меню
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         onClose()
       }
     }
 
-    // Додаємо слухача подій
     document.addEventListener("mousedown", handleClickOutside)
 
     return () => {
-      // Прибираємо слухача при розмонтуванні
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [onClose])
@@ -37,20 +34,20 @@ const ProfileList = ({ onLogout, onClose }: ProfileListProps) => {
       <ul className={css.profileList}>
         <li className={css.profileItem}>
           <Link href="/profile" onClick={onClose}>
-            My profile
+            <span>My profile</span>
             <FaRegUser className={css.profileIcon} size={20} />
           </Link>
         </li>
         <li className={css.profileItem}>
           <Link href="/profile/edit" onClick={onClose}>
-            Change profile
+            <span>Change profile</span>
             <MdModeEditOutline className={css.editIcon} size={20} />
           </Link>
         </li>
         <li className={css.profileItem}>
           <button className={css.logoutBtn} type="button" onClick={onLogout}>
+            <span>Logout</span>
             <RiLogoutBoxRLine className={css.logoutIcon} size={20} />
-            Logout
           </button>
         </li>
       </ul>

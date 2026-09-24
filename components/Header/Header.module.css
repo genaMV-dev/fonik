@@ -1,16 +1,19 @@
 .header {
-  padding: 36px 160px;
+  padding: 16px 20px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: var(--white);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .container {
-  padding: 36px 160px;
+  padding: 16px 20px;
   background-color: var(--white);
   position: fixed;
   top: 0;
@@ -25,125 +28,287 @@
   gap: 8px;
   font-family: var(--third-family);
   font-weight: 900;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   letter-spacing: 0.04em;
   color: var(--links);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.navList {
+.navListDesktop {
+  display: none;
+}
+
+.userActions {
   display: flex;
-  gap: 80px;
   align-items: center;
-  text-align: center;
-  margin: 0 auto;
-  font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 24px;
-  color: var(--links);
+  gap: 16px;
+  flex-shrink: 0;
 }
 
-.navItem {
-  transition: color 0.3s ease;
-}
-
-.navItem:hover {
-  color: var(--hover-links);
-}
-
-.basketWrapper svg {
-  color: var(--links);
-  transition: color 0.3s ease;
-}
-
-.basketWrapper svg:hover {
-  color: var(--hover-links);
-}
-
-.basketWrapper {
+.basketLink {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.basketLink svg {
+  color: var(--links);
+  transition: color 0.3s ease;
+}
+
+.basketLink svg:hover {
+  color: var(--hover-links);
 }
 
 .counter {
   background-color: var(--main);
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   position: absolute;
-  top: 0px;
-  left: 32px;
+  top: -6px;
+  right: -8px;
+  display: flex;
   align-items: center;
-  text-align: center;
-  margin: 0 auto;
+  justify-content: center;
   font-family: var(--font-family);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 12px;
   color: var(--white);
 }
 
+.profileWrapper {
+  position: relative;
+}
+
 .profileListBtn {
-  position: absolute;
-  right: -86px;
-  top: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid var(--links);
   border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
   transition: border 0.3s ease;
 }
 
-.profileListBtn:hover{
-  border: 2px solid var(--hover-links);
+.profileListBtn:hover {
+  border-color: var(--hover-links);
 }
 
-.avatarImage{
+.avatarImage {
   border-radius: 50%;
 }
 
 .unAuthList {
   display: flex;
-  gap: 12px;
-  position: absolute;
-  right: 164px;
-  top: 30px;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.loginLink {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--links);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--main);
+  background-color: transparent;
+  padding: 6px 16px;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
+}
+
+.loginLink:hover {
+  border-color: var(--hover-btn);
+  color: var(--hover-btn);
 }
 
 .regLink {
   font-family: var(--second-family);
   font-weight: 600;
-  font-size: 20px;
-  line-height: 1.67;
+  font-size: 14px;
   color: var(--white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: var(--hover-links);
-  width: 143px;
-  height: 51px;
+  padding: 6px 16px;
   transition: opacity 0.3s ease;
+  white-space: nowrap;
 }
 
 .regLink:hover {
   opacity: 0.8;
 }
 
-.loginLink {
-  font-family: var(--second-family);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.67;
-  color: var(--links);
-  display: inline-flex;
+.bottomNav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--white);
+  border-top: 1px solid #e0e0e0;
+  z-index: 1000;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  border: 3px solid var(--main);
-  background-color: transparent;
-  width: 143px;
-  height: 51px;
-  transition:
-    border-color 0.3s ease,
-    color 0.3s ease;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.loginLink:hover {
-  border-color: var(--hover-btn);
-  color: var(--hover-btn);
+.bottomNavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--links);
+  text-decoration: none;
+  font-family: var(--font-family);
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.bottomNavItem.active,
+.bottomNavItem:hover {
+  color: var(--hover-links);
+}
+
+/* Tablet view (768px - 1439px) */
+@media screen and (min-width: 768px) {
+  .bottomNav {
+    display: none;
+  }
+
+  .header,
+  .container {
+    padding: 24px 32px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .navListDesktop {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--links);
+    white-space: nowrap;
+  }
+
+  .navItem a {
+    color: var(--links);
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+
+  .navItem a:hover,
+  .activeLink {
+    color: var(--hover-links) !important;
+  }
+
+  .userActions {
+    gap: 20px;
+  }
+
+  .basketLink svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .counter {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    top: -4px;
+    right: -8px;
+  }
+
+  .profileListBtn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .avatarImage {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .unAuthList {
+    gap: 12px;
+  }
+
+  .loginLink,
+  .regLink {
+    width: 120px;
+    height: 44px;
+    padding: 0;
+    font-size: 16px;
+  }
+}
+
+/* Desktop view (1440px+) */
+@media screen and (min-width: 1440px) {
+  .header,
+  .container {
+    padding: 36px 160px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .navListDesktop {
+    gap: 80px;
+    font-size: 24px;
+  }
+
+  .userActions {
+    gap: 24px;
+  }
+
+  .basketLink svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .counter {
+    width: 25px;
+    height: 25px;
+    font-size: 18px;
+    top: 0;
+    right: -10px;
+  }
+
+  .profileListBtn {
+    width: 54px;
+    height: 54px;
+  }
+
+  .avatarImage {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .loginLink,
+  .regLink {
+    width: 143px;
+    height: 51px;
+    font-size: 20px;
+    border-radius: 0;
+  }
 }

@@ -1,5 +1,5 @@
-import css from "./Loader.module.css"
-import { Loader as RsuiteLoader } from "rsuite"
+import css from "./Loader.module.css";
+import { Loader as RsuiteLoader } from "rsuite";
 import "rsuite/dist/rsuite-no-reset.min.css"; 
 
 const Loader = () => {
@@ -13,7 +13,7 @@ const Loader = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

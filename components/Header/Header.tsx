@@ -5,6 +5,7 @@ import Link from "next/link"
 import css from "./Header.module.css"
 import Image from "next/image"
 import { SlBasket } from "react-icons/sl"
+import { GoHome, GoPackage, GoTag, GoInfo } from "react-icons/go"
 import { useAuthStore } from "@/lib/store/authStore"
 import { usePathname, useRouter } from "next/navigation"
 import { getBasket, getCurrentUser, logoutUser } from "@/lib/api/api"
@@ -87,84 +88,130 @@ const Header = () => {
   }
 
   return (
-    <header className={css.header}>
-      <Link className={css.logo} href="/">
-        <Image
-          className={css.icon}
-          src="/logo.ico"
-          alt="Fomik Logo"
-          width={32}
-          height={32}
-        />
-        <h2 className={css.logoTitle}>FOMIK</h2>
-      </Link>
+    <>
+      <header className={css.header}>
+        <Link className={css.logo} href="/">
+          <Image
+            className={css.icon}
+            src="/logo.ico"
+            alt="Fomik Logo"
+            width={32}
+            height={32}
+          />
+          <h2 className={css.logoTitle}>FOMIK</h2>
+        </Link>
 
-      <ul className={css.navList}>
-        <li className={css.navItem}>
-          <Link href="/">HOME</Link>
-        </li>
-        <li className={css.navItem}>
-          <Link href="/products">PRODUCTS</Link>
-        </li>
-        {isAuthenticated && (
+        <ul className={css.navListDesktop}>
           <li className={css.navItem}>
-            <Link href="/ads">MY ADS</Link>
-          </li>
-        )}
-        <li className={css.navItem}>
-          <Link href="/about">ABOUT US</Link>
-        </li>
-      </ul>
-
-      {isAuthenticated ? (
-        <div className={css.basketWrapper}>
-          <Link href="/basket">
-            <SlBasket size={50} />
-            {basketCount > 0 && (
-              <div className={css.counter}>{basketCount}</div>
-            )}
-          </Link>
-
-          <div style={{ position: "relative" }}>
-            <button
-              className={css.profileListBtn}
-              type="button"
-              onClick={toggleProfileMenu}
+            <Link
+              href="/"
+              className={pathname === "/" ? css.activeLink : ""}
             >
-              <Image
-                src={avatar || "/placeholder.png"}
-                alt="User avatar"
-                width={50}
-                height={50}
-                className={css.avatarImage}
-              />
-            </button>
+              HOME
+            </Link>
+          </li>
+          <li className={css.navItem}>
+            <Link
+              href="/products"
+              className={pathname === "/products" ? css.activeLink : ""}
+            >
+              PRODUCTS
+            </Link>
+          </li>
+          {isAuthenticated && (
+            <li className={css.navItem}>
+              <Link
+                href="/ads"
+                className={pathname === "/ads" ? css.activeLink : ""}
+              >
+                MY ADS
+              </Link>
+            </li>
+          )}
+          <li className={css.navItem}>
+            <Link
+              href="/about"
+              className={pathname === "/about" ? css.activeLink : ""}
+            >
+              ABOUT US
+            </Link>
+          </li>
+        </ul>
 
-            {isProfileOpen && (
-              <ProfileList
-                onLogout={handleLogout}
-                onClose={() => setIsProfileOpen(false)}
-              />
-            )}
+        {isAuthenticated ? (
+          <div className={css.userActions}>
+            <Link href="/basket" className={css.basketLink}>
+              <SlBasket size={32} />
+              {basketCount > 0 && (
+                <div className={css.counter}>{basketCount}</div>
+              )}
+            </Link>
+
+            <div className={css.profileWrapper}>
+              <button
+                className={css.profileListBtn}
+                type="button"
+                onClick={toggleProfileMenu}
+              >
+                <Image
+                  src={avatar || "/placeholder.png"}
+                  alt="User avatar"
+                  width={40}
+                  height={40}
+                  className={css.avatarImage}
+                />
+              </button>
+
+              {isProfileOpen && (
+                <ProfileList
+                  onLogout={handleLogout}
+                  onClose={() => setIsProfileOpen(false)}
+                />
+              )}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div>
-          <ul className={css.unAuthList}>
-            <li className={css.unAuthItem}>
-              <Link className={css.loginLink} href="/login">
-                Login
-              </Link>
-            </li>
-            <li className={css.unAuthItem}>
-              <Link className={css.regLink} href="/register">
-                Register
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
-    </header>
+        ) : (
+          <div className={css.unAuthWrapper}>
+            <ul className={css.unAuthList}>
+              <li className={css.unAuthItem}>
+                <Link className={css.loginLink} href="/login">
+                  Login
+                </Link>
+              </li>
+              <li className={css.unAuthItem}>
+                <Link className={css.regLink} href="/register">
+                  Register
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+      </header>
+
+      <nav className={css.bottomNav}>
+        <Link href="/" className={`${css.bottomNavItem} ${pathname === "/" ? css.active : ""}`}>
+          <GoHome size={24} />
+          <span>HOME</span>
+        </Link>
+
+        <Link href="/products" className={`${css.bottomNavItem} ${pathname === "/products" ? css.active : ""}`}>
+          <GoPackage size={24} />
+          <span>PRODUCTS</span>
+        </Link>
+
+        {isAuthenticated && (
+          <Link href="/ads" className={`${css.bottomNavItem} ${pathname === "/ads" ? css.active : ""}`}>
+            <GoTag size={24} />
+            <span>MY ADS</span>
+          </Link>
+        )}
+
+        <Link href="/about" className={`${css.bottomNavItem} ${pathname === "/about" ? css.active : ""}`}>
+          <GoInfo size={24} />
+          <span>ABOUT US</span>
+        </Link>
+      </nav>
+    </>
   )
 }
 

@@ -12,7 +12,7 @@ import { getCurrentUser, updateUserProfile, UserDTO } from "@/lib/api/api"
 const EditProfilePage = () => {
   const [username, setUsername] = useState("")
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
-  const [avatarPreview, setAvatarPreview] = useState<string>("/img/Harry.webp")
+  const [avatarPreview, setAvatarPreview] = useState<string>("/placeholder.png")
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -92,8 +92,8 @@ const EditProfilePage = () => {
                 <Image
                   src={avatarPreview}
                   alt="Avatar preview"
-                  width={160}
-                  height={160}
+                  fill
+                  priority
                   className={css.avatar}
                 />
               </div>

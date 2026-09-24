@@ -1,42 +1,72 @@
 .container {
   position: absolute;
-  right: -146px;
-  padding: 12px 20px;
-  max-height: 160px;
+  top: calc(100% + 12px);
+  right: 0;
+  padding: 16px 20px;
   min-width: 220px;
+  background-color: var(--white);
   border: 2px solid var(--main);
-  border-top: none;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .profileList {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .profileItem {
   font-family: var(--font-family);
   font-weight: 500;
-  font-size: 24px;
+  font-size: 16px;
   color: var(--links);
-  position: relative;
 }
 
+.profileItem a,
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  transition: color 0.2s ease;
+}
+
+.profileItem a:hover,
+.logoutBtn:hover {
+  color: var(--hover-links);
+}
+
+.logoutBtn {
+  color: #e53e3e; 
+}
+
+.logoutBtn:hover {
+  color: #c53030;
+}
+
+.profileIcon,
+.editIcon,
 .logoutIcon {
-  position: absolute;
-  left: 80px;
-  bottom: 3px;
+  flex-shrink: 0;
 }
 
-.editIcon {
-  position: absolute;
-  left: 159px;
-  bottom: 4px;
-}
-
-.profileIcon {
-  position: absolute;
-  left: 114px;
-  bottom: 4px;
+@media screen and (min-width: 768px) {
+  .profileItem {
+    font-size: 18px;
+  }
 }

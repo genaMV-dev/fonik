@@ -1,89 +1,26 @@
 .container {
   display: flex;
-  gap: 200px;
-  padding: 120px 160px;
-}
-
-.text {
-  display: flex;
-  flex-direction: column;
-  margin-top: 120px;
-}
-
-.title {
-  font-family: var(--second-family);
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 1.46;
-  color: var(--main);
-}
-
-.paragraph {
-  font-family: var(--second-family);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 1.25;
-  color: var(--text);
-  margin-bottom: 92px;
-}
-
-.btnList {
-  display: flex;
-  gap: 20px;
-}
-
-.sell {
-  font-family: var(--second-family);
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 1.67;
-  color: var(--links);
-  display: inline-flex;
+  flex-direction: column-reverse;
   align-items: center;
-  justify-content: center;
-  border: 3px solid var(--main);
-  background-color: transparent;
-  width: 228px;
-  height: 81px;
-  transition:
-    border-color 0.3s ease,
-    color 0.3s ease;
+  gap: 32px;
+  padding: 32px 16px;
+  width: 100%;
 }
 
-.sell:hover {
-  border-color: var(--hover-btn);
-  color: var(--hover-btn);
-}
 
-.buy {
-  font-family: var(--second-family);
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 1.67;
-  color: var(--white);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--main);
-  width: 228px;
-  height: 81px;
-  transition: background-color 0.3s ease;
-}
-
-.buy:hover {
-  background-color: var(--hover-btn);
-}
 
 .galleryWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 52px;
+  gap: 20px;
+  width: 100%;
 }
 
 .gallery {
-  width: 700px;
-  height: 680px;
+  width: 100%;
+  max-width: 340px;
+  height: 330px;
   position: relative;
   overflow: hidden;
 }
@@ -118,14 +55,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 .sliderBtn {
   border-radius: 50%;
   background-color: #c4c4c4;
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -134,4 +71,202 @@
 
 .sliderBtnActive {
   background-color: var(--main);
+}
+
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 0;
+  width: 100%;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.3;
+  color: var(--main);
+  margin-bottom: 12px;
+}
+
+.paragraph {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 32px;
+}
+
+.paragraph br {
+  display: none; 
+}
+
+.btnList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.sell {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--links);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--main);
+  background-color: transparent;
+  width: 100%;
+  height: 52px;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.sell:hover {
+  border-color: var(--hover-btn);
+  color: var(--hover-btn);
+}
+
+.buy {
+  font-family: var(--second-family);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main);
+  width: 100%;
+  height: 52px;
+  transition: background-color 0.3s ease;
+}
+
+.buy:hover {
+  background-color: var(--hover-btn);
+}
+
+
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 60px 40px;
+    gap: 48px;
+  }
+
+  .gallery {
+    max-width: 500px;
+    height: 480px;
+  }
+
+  .galleryWrapper {
+    gap: 32px;
+  }
+
+  .slider {
+    gap: 16px;
+  }
+
+  .sliderBtn {
+    width: 20px;
+    height: 20px;
+  }
+
+  .title {
+    font-size: 38px;
+  }
+
+  .paragraph {
+    font-size: 20px;
+    margin-bottom: 48px;
+  }
+
+  .paragraph br {
+    display: inline; 
+  }
+
+  .btnList {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+    gap: 20px;
+  }
+
+  .sell,
+  .buy {
+    width: 200px;
+    height: 64px;
+    font-size: 20px;
+  }
+}
+
+
+
+@media screen and (min-width: 1440px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 200px;
+    padding: 120px 160px;
+  }
+
+  .text {
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 120px;
+    width: auto;
+  }
+
+  .title {
+    font-size: 48px;
+    line-height: 1.46;
+    margin-bottom: 0;
+  }
+
+  .paragraph {
+    font-size: 24px;
+    line-height: 1.25;
+    margin-bottom: 92px;
+  }
+
+  .btnList {
+    justify-content: flex-start;
+  }
+
+  .sell,
+  .buy {
+    width: 228px;
+    height: 81px;
+    font-size: 24px;
+    line-height: 1.67;
+  }
+
+  .galleryWrapper {
+    gap: 52px;
+    width: auto;
+  }
+
+  .gallery {
+    max-width: none;
+    width: 700px;
+    height: 680px;
+  }
+
+  .slider {
+    gap: 20px;
+  }
+
+  .sliderBtn {
+    width: 22px;
+    height: 22px;
+  }
 }

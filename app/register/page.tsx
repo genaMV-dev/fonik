@@ -80,7 +80,7 @@ const RegisterPage = () => {
           <Form className={css.form}>
             <h2 className={css.title}>Register</h2>
 
-            {serverError && <div className={css.error}>{serverError}</div>}
+            {serverError && <div className={css.serverError}>{serverError}</div>}
 
             {/* Поле USERNAME */}
             <div className={css.fieldWrapper}>
@@ -132,33 +132,35 @@ const RegisterPage = () => {
                 Password
               </label>
 
-              <Field
-                type={showPassword ? "text" : "password"}
-                name="password"
-                id="password"
-                autoComplete="new-password"
-                className={css.input}
-                placeholder="••••••••"
-              />
+              <div className={css.passwordInputWrapper}>
+                <Field
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  autoComplete="new-password"
+                  className={`${css.input} ${css.passwordInput}`}
+                  placeholder="••••••••"
+                />
+
+                <button
+                  className={css.buttonEye}
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <IoEyeOff className={css.eye} size={22} />
+                  ) : (
+                    <IoEye className={css.eye} size={22} />
+                  )}
+                </button>
+              </div>
 
               <ErrorMessage
                 name="password"
                 component="span"
                 className={css.error}
               />
-
-              <button
-                className={css.buttonEye}
-                type="button"
-                onClick={togglePasswordVisibility}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? (
-                  <IoEyeOff className={css.eye} size={25} />
-                ) : (
-                  <IoEye className={css.eye} size={25} />
-                )}
-              </button>
             </div>
 
             <button

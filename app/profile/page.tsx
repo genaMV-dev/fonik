@@ -10,7 +10,6 @@ import css from "./ProfilePage.module.css"
 import { getCurrentUser, getMyPhones, logoutUser, PhoneItem, UserDTO } from "@/lib/api/api"
 import { useAuthStore } from "@/lib/store/authStore"
 
-// Розширимо інтерфейс на випадок snake_case від бетенду
 interface ExtendedUserDTO extends UserDTO {
   created_at?: string
 }
@@ -29,9 +28,6 @@ const ProfilePage = () => {
           getCurrentUser(),
           getMyPhones(),
         ])
-
-        // Лог для перевірки реальної структури об'єкта
-        console.log("Fetched User Data:", userData)
 
         setUser(userData as ExtendedUserDTO)
         setAds(userAdsData.phones)
@@ -62,7 +58,6 @@ const ProfilePage = () => {
 
   const previewAds = ads.slice(0, 3)
 
-  // Перевіряємо обидва варіанти найменування поля
   const rawDate = user?.createdAt || user?.created_at
   const joinedDateFormatted = rawDate
     ? new Date(rawDate).toLocaleDateString("en-US", {
@@ -78,13 +73,16 @@ const ProfilePage = () => {
 
       <div className={css.card}>
         <div className={css.headerSection}>
-          <Image
-            className={css.avatar}
-            src={user?.avatar || "/img/Harry.webp"}
-            alt="avatar"
-            width={160}
-            height={160}
-          />
+          <div className={css.avatarWrapper}>
+            <Image
+              className={css.avatar}
+              src={user?.avatar || "/placeholder.png"}
+              alt="avatar"
+              fill
+              priority
+            />
+          </div>
+
           <div className={css.textInfo}>
             <h2 className={css.username}>{user?.username || "Gena"}</h2>
             <p className={css.email}>{user?.email || "genamush@gmail.com"}</p>
@@ -114,8 +112,6 @@ const ProfilePage = () => {
               </button>
             </div>
           </div>
-
-          <div className={css.divider} />
 
           <div className={css.adsColumn}>
             <h3 className={css.sectionTitle}>MY LISTINGS (ADS)</h3>
