@@ -45,6 +45,13 @@ body {
   display: flex;
   flex-direction: column;
   padding-top: 104px;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), 
+    url('/bg.webp'); 
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 main {
