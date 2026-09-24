@@ -7,8 +7,15 @@ import { useRouter } from "next/navigation"
 import { FaCalendarAlt, FaUserEdit } from "react-icons/fa"
 import { RiLogoutBoxRLine } from "react-icons/ri"
 import css from "./ProfilePage.module.css"
-import { getCurrentUser, getMyPhones, logoutUser, PhoneItem, UserDTO } from "@/lib/api/api"
+import {
+  getCurrentUser,
+  getMyPhones,
+  logoutUser,
+  PhoneItem,
+  UserDTO,
+} from "@/lib/api/api"
 import { useAuthStore } from "@/lib/store/authStore"
+import ProfileLoader from "@/components/ProfileLoader/ProfileLoader"
 
 interface ExtendedUserDTO extends UserDTO {
   created_at?: string
@@ -53,18 +60,24 @@ const ProfilePage = () => {
   }
 
   if (loading) {
-    return <div className={css.container}>Loading...</div>
+    return (
+      <div className={css.container}>
+        <ProfileLoader />
+      </div>
+    )
   }
 
   const previewAds = ads.slice(0, 3)
 
   const rawDate = user?.createdAt || user?.created_at
   const joinedDateFormatted = rawDate
-    ? new Date(rawDate).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }).toUpperCase()
+    ? new Date(rawDate)
+        .toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+        .toUpperCase()
     : "N/A"
 
   return (
