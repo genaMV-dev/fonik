@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { MdDelete } from "react-icons/md"
 import { getBasket, removeFromBasket, PhoneItem } from "@/lib/api/api"
 import { useAuthStore } from "@/lib/store/authStore"
@@ -12,7 +13,9 @@ const BasketPage = () => {
   const [phones, setPhones] = useState<PhoneItem[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
+  const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false)
 
+  const router = useRouter()
   const setBasketCount = useAuthStore((state) => state.setBasketCount)
   const decrementBasketCount = useAuthStore(
     (state) => state.decrementBasketCount,
@@ -50,6 +53,22 @@ const BasketPage = () => {
   }
 
   const totalPrice = phones.reduce((acc, phone) => acc + (phone.price || 0), 0)
+
+  const handleCheckout = async (): Promise<void> => {
+    if (isCheckingOut || phones.length === 0) return
+
+    try {
+      setIsCheckingOut(true)
+      await Promise.all(phones.map((phone) => removeFromBasket(phone._id)))
+      setPhones([])
+      setBasketCount(0)
+      router.push("/products?checkout=success")
+    } catch (err) {
+      console.error("Failed to complete checkout:", err)
+      setError("Failed to complete checkout")
+      setIsCheckingOut(false)
+    }
+  }
 
   if (isLoading) {
     return <div className={css.container}>Loading basket...</div>
@@ -127,8 +146,13 @@ const BasketPage = () => {
               <span>Total Amount:</span>
               <span className={css.totalPrice}>{totalPrice}$</span>
             </div>
-            <button className={css.checkoutBtn} type="button">
-              CHECKOUT
+            <button
+              className={css.checkoutBtn}
+              type="button"
+              onClick={handleCheckout}
+              disabled={isCheckingOut}
+            >
+              {isCheckingOut ? "PROCESSING..." : "CHECKOUT"}
             </button>
           </div>
         </div>

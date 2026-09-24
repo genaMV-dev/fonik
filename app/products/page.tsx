@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import css from "./ProductsPage.module.css"
 import Image from "next/image"
@@ -9,6 +10,7 @@ import { getAllPhones, addToBasket, getBasket, PhoneItem } from "@/lib/api/api"
 import Loader from "@/components/Loader/Loader"
 import toast from "react-hot-toast"
 import { useAuthStore } from "@/lib/store/authStore"
+import Checkout from "@/components/Checkout/Checkout"
 
 const PER_PAGE = 6
 
@@ -21,9 +23,22 @@ const ProductsPage = () => {
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
   const [addingId, setAddingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false)
 
+  const router = useRouter()
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  const incrementBasketCount = useAuthStore((state) => state.incrementBasketCount)
+  const incrementBasketCount = useAuthStore(
+    (state) => state.incrementBasketCount,
+  )
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+
+    if (searchParams.get("checkout") === "success") {
+      setIsCheckoutOpen(true)
+      router.replace("/products", { scroll: false })
+    }
+  }, [router])
 
   useEffect(() => {
     const fetchInitialData = async (): Promise<void> => {
@@ -61,7 +76,7 @@ const ProductsPage = () => {
     try {
       setLoadingMore(true)
       const data = await getAllPhones({ page: nextPage, perPage: PER_PAGE })
-      
+
       setPhones((prev) => [...prev, ...data.phones])
       setPage(nextPage)
       setTotalPages(data.totalPages)
@@ -178,6 +193,8 @@ const ProductsPage = () => {
           </button>
         </div>
       )}
+
+      {isCheckoutOpen && <Checkout onClose={() => setIsCheckoutOpen(false)} />}
     </>
   )
 }
