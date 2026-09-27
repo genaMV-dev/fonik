@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fonik
 
-## Getting Started
+Fonik — вебзастосунок для оголошень про продаж смартфонів. Користувачі можуть переглядати каталог, додавати телефони до кошика, створювати власні оголошення та редагувати профіль.
 
-First, run the development server:
+## Можливості
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Головна сторінка зі слайдером зображень смартфонів.
+- Каталог оголошень із переходом на сторінку деталей товару.
+- Авторизація та реєстрація користувачів.
+- Створення, перегляд, редагування та видалення власних оголошень.
+- Кошик із додаванням і видаленням товарів та підрахунком суми.
+- Сторінка профілю з редагуванням імені та аватара.
+- Підтвердження checkout: кошик очищується на бекенді, після чого відкривається повідомлення про прийняття замовлення на сторінці каталогу. Оплата через платіжний сервіс наразі не реалізована.
+
+## Технології
+
+- Next.js 16 з App Router
+- React 19 і TypeScript
+- Axios для HTTP-запитів до бекенду
+- Zustand для клієнтського стану авторизації та лічильника кошика
+- TanStack Query для мутацій і кешування запитів
+- Formik і Yup для форм та валідації
+- CSS Modules для стилів компонентів
+- React Icons і React Hot Toast для іконок та повідомлень
+
+## Вимоги
+
+- Node.js 20.9 або новіший
+- npm
+- Доступ до Fonik backend: [fonik-backend](https://github.com/genaMV-dev/fonik-backend)
+
+## Запуск локально
+
+1. Встановіть залежності:
+
+   ```bash
+   npm install
+   ```
+
+2. Створіть у корені проєкту файл `.env.local`:
+
+   ```dotenv
+   NEXT_PUBLIC_BACKEND_URL=https://fonik-backend.onrender.com
+   ```
+
+   Змінна має містити базову URL бекенду без кінцевого `/`. Для локального бекенду вкажіть його адресу, наприклад `http://localhost:3001`.
+
+3. Запустіть dev-сервер:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Відкрийте [http://localhost:3000](http://localhost:3000).
+
+Файл `.env.local` не потрібно додавати до Git: `.env*` виключені через `.gitignore`. Після зміни змінної середовища перезапустіть dev-сервер.
+
+## Скрипти
+
+| Команда         | Призначення                           |
+| --------------- | ------------------------------------- |
+| `npm run dev`   | Запуск локального dev-сервера Next.js |
+| `npm run build` | Production-збірка                     |
+| `npm start`     | Запуск зібраного застосунку           |
+| `npm run lint`  | Перевірка ESLint                      |
+
+## Сторінки
+
+| Шлях                    | Призначення                              |
+| ----------------------- | ---------------------------------------- |
+| `/`                     | Головна сторінка та слайдер              |
+| `/products`             | Каталог телефонів                        |
+| `/products/[phoneId]`   | Деталі оголошення та додавання до кошика |
+| `/sell`                 | Створення оголошення                     |
+| `/ads`                  | Керування власними оголошеннями          |
+| `/ads/update/[phoneId]` | Редагування оголошення                   |
+| `/basket`               | Кошик та checkout                        |
+| `/profile`              | Профіль користувача й його оголошення    |
+| `/profile/edit`         | Редагування профілю та аватара           |
+| `/login`                | Вхід                                     |
+| `/register`             | Реєстрація                               |
+| `/about`                | Інформаційна сторінка                    |
+
+## Backend та авторизація
+
+Фронтенд надсилає запити до `NEXT_PUBLIC_BACKEND_URL`. Основні групи API-маршрутів:
+
+- `/auth/*` — реєстрація, вхід, вихід і оновлення сесії.
+- `/phones/*` — каталог, оголошення, кошик і дії з оголошеннями.
+- `/users/*` — поточний користувач і налаштування профілю.
+
+Axios налаштований з `withCredentials: true`: браузер передає сесійні cookies бекенду. Переконайтеся, що CORS на бекенді дозволяє origin фронтенду та credentials. Локально фронтенд за замовчуванням працює на `http://localhost:3000`.
+
+## Структура проєкту
+
+```text
+app/          Сторінки App Router і глобальні стилі
+components/   Спільні компоненти: Header, PhoneForm, Checkout, Loader та інші
+lib/api/      Типи та функції запитів до бекенду
+lib/store/    Zustand store авторизації та кошика
+public/       Статичні зображення й інші ресурси
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
