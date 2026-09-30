@@ -3,6 +3,7 @@ import { Lato, Poppins, Gothic_A1 } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/Header/Header"
 import TanStackProvider from "@/components/TanStackProvider/TanStackProvider"
+import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider"
 
 const lato = Lato({
   weight: ["400", "700"],
@@ -36,11 +37,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${lato.variable} ${poppins.variable} ${gothicA1.variable}`}
+      suppressHydrationWarning
     >
       <body>
         <TanStackProvider>
-          <Header />
-          {children}
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="light"
+            enableSystem
+          >
+            <Header />
+            {children}
+          </ThemeProvider>
         </TanStackProvider>
       </body>
     </html>

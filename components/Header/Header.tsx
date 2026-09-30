@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import Link from "next/link"
 import css from "./Header.module.css"
 import Image from "next/image"
@@ -10,8 +10,19 @@ import { useAuthStore } from "@/lib/store/authStore"
 import { usePathname, useRouter } from "next/navigation"
 import { getBasket, getCurrentUser, logoutUser } from "@/lib/api/api"
 import ProfileList from "../ProfileList/ProfileList"
+import { FaLightbulb } from "react-icons/fa"
+import { useTheme } from "next-themes"
+
+const emptySubscribe = () => () => {}
 
 const Header = () => {
+  const { theme, setTheme } = useTheme()
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  )
+
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const basketCount = useAuthStore((state) => state.basketCount)
   const setBasketCount = useAuthStore((state) => state.setBasketCount)
@@ -51,6 +62,10 @@ const Header = () => {
       isMounted = false
     }
   }, [isAuthenticated, setBasketCount])
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
   const hiddenRoutes = ["/login", "/register"]
 
@@ -101,12 +116,20 @@ const Header = () => {
           <h2 className={css.logoTitle}>FOMIK</h2>
         </Link>
 
+        {mounted && (
+          <button
+            className={css.toggleTheme}
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            <FaLightbulb className={css.themeIcon} size={20} />
+          </button>
+        )}
+
         <ul className={css.navListDesktop}>
           <li className={css.navItem}>
-            <Link
-              href="/"
-              className={pathname === "/" ? css.activeLink : ""}
-            >
+            <Link href="/" className={pathname === "/" ? css.activeLink : ""}>
               HOME
             </Link>
           </li>
@@ -189,24 +212,44 @@ const Header = () => {
       </header>
 
       <nav className={css.bottomNav}>
-        <Link href="/" className={`${css.bottomNavItem} ${pathname === "/" ? css.active : ""}`}>
+        <Link
+          href="/"
+          className={`${css.bottomNavItem} ${
+            pathname === "/" ? css.active : ""
+          }`}
+        >
           <GoHome size={24} />
           <span>HOME</span>
         </Link>
 
-        <Link href="/products" className={`${css.bottomNavItem} ${pathname === "/products" ? css.active : ""}`}>
+        <Link
+          href="/products"
+          className={`${css.bottomNavItem} ${
+            pathname === "/products" ? css.active : ""
+          }`}
+        >
           <GoPackage size={24} />
           <span>PRODUCTS</span>
         </Link>
 
         {isAuthenticated && (
-          <Link href="/ads" className={`${css.bottomNavItem} ${pathname === "/ads" ? css.active : ""}`}>
+          <Link
+            href="/ads"
+            className={`${css.bottomNavItem} ${
+              pathname === "/ads" ? css.active : ""
+            }`}
+          >
             <GoTag size={24} />
             <span>MY ADS</span>
           </Link>
         )}
 
-        <Link href="/about" className={`${css.bottomNavItem} ${pathname === "/about" ? css.active : ""}`}>
+        <Link
+          href="/about"
+          className={`${css.bottomNavItem} ${
+            pathname === "/about" ? css.active : ""
+          }`}
+        >
           <GoInfo size={24} />
           <span>ABOUT US</span>
         </Link>

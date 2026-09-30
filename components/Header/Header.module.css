@@ -121,7 +121,9 @@
   border: 2px solid var(--main);
   background-color: transparent;
   padding: 6px 16px;
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
   white-space: nowrap;
 }
 
@@ -181,6 +183,13 @@
 .bottomNavItem:hover {
   color: var(--hover-links);
 }
+
+.toggleTheme {
+  position: absolute;
+  left: 34vw;
+  top: 6.5vw;
+}
+
 
 /* Tablet view (768px - 1439px) */
 @media screen and (min-width: 768px) {
@@ -259,6 +268,11 @@
     padding: 0;
     font-size: 16px;
   }
+
+  .toggleTheme {
+    left: 20vw;
+    top: 4.5vw;
+  }
 }
 
 /* Desktop view (1440px+) */
@@ -310,5 +324,15 @@
     height: 51px;
     font-size: 20px;
     border-radius: 0;
+  }
+
+  .toggleTheme {
+    left: 15.5vw;
+    top: 2.5vw;
+  }
+
+  .themeIcon{
+    width: 25px;
+    height: 25px;
   }
 }
