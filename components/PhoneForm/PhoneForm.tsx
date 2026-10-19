@@ -175,6 +175,8 @@ const PhoneForm = ({ initialValues, onSubmit }: PhoneFormProps) => {
                       ["64", "64 gb"],
                       ["128", "128 gb"],
                       ["256", "256 gb"],
+                      ["512", "512 gb"],
+                      ["1000", "1 tb"],
                     ])}
                   </div>
                   <div className={css.radioForm}>
