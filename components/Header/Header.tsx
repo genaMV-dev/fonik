@@ -76,11 +76,11 @@ const Header = () => {
           <Image
             className={css.icon}
             src="/logo.ico"
-            alt="Fomik Logo"
+            alt="Fonik Logo"
             width={32}
             height={32}
           />
-          <h2 className={css.logoTitle}>FOMIK</h2>
+          <h2 className={css.logoTitle}>FONIK</h2>
         </Link>
       </div>
     )
