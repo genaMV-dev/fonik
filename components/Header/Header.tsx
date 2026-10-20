@@ -75,7 +75,7 @@ const Header = () => {
         <Link className={css.logo} href="/">
           <Image
             className={css.icon}
-            src="/logo.ico"
+            src="/icon.ico"
             alt="Fonik Logo"
             width={32}
             height={32}
