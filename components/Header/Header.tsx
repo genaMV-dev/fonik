@@ -108,12 +108,12 @@ const Header = () => {
         <Link className={css.logo} href="/">
           <Image
             className={css.icon}
-            src="/logo.ico"
-            alt="Fomik Logo"
+            src="/icon.ico"
+            alt="Fonik Logo"
             width={32}
             height={32}
           />
-          <h2 className={css.logoTitle}>FOMIK</h2>
+          <h2 className={css.logoTitle}>FONIK</h2>
         </Link>
 
         {mounted && (
